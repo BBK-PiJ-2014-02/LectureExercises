@@ -1,0 +1,18 @@
+int i = 0, max = 0;
+String str, result = "Yes";
+
+while ( true ) {
+  println("Please enter a positive number (-1 to end): ");
+  str = System.console().readLine();
+  i = Integer.parseInt(str);
+  if ( i == -1 ) {
+    break;
+  }
+  if ( i >= 0 && i > max && result == "Yes") {
+      max = i;
+  } else if ( i > 0 && max > i ) {
+      result = "No";
+  }
+}
+
+println("The result is: " + result);

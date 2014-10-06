@@ -1,0 +1,30 @@
+println("Enter a number (q to quit):"); 
+String str = System.console().readLine();
+while ( true ) {
+  if ( str.equals("Q") | str.equals("q") ) {
+    break;
+  } 
+  else {
+    int i = Integer.parseInt(str);
+    if ( isPrime(i) ) {
+      println (i + " is a prime number.");
+    } 
+    else {
+      println (i + " is not a prime number.");
+    }
+  }
+  str = System.console().readLine();
+}
+
+boolean isPrime (int i) {
+  if ( i == 1 ) { 
+    return true; 
+  }
+  
+  for ( int j = 2; j < i; j++ ) {
+    if ( (i % j) == 0 ) {
+      return false;
+    }
+  }
+  return true;
+}

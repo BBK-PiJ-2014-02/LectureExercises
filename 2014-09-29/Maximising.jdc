@@ -1,0 +1,17 @@
+println("Please enter a positive number (-1 to end): ");
+String str = System.console().readLine();
+int i = Integer.parseInt(str);
+int max = 0;
+while ( true ) {
+  if ( i == -1 ) {
+    break;
+  }
+  println("Please enter a positive number (-1 to end): ");
+  str = System.console().readLine();
+  i = Integer.parseInt(str);
+  if ( i > max ) {
+      max = i;
+  }
+}
+
+println("The maximum nunber entered was: " + max);

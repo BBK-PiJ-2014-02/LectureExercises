@@ -1,0 +1,33 @@
+println("Enter first number:"); 
+String str1 = System.console().readLine();
+int n1 = Integer.parseInt(str1);
+println("Enter second number:"); 
+String str2 = System.console().readLine();
+int n2 = Integer.parseInt(str2);
+println("Enter third number:"); 
+String str3 = System.console().readLine();
+int n3 = Integer.parseInt(str3);
+
+if ( n1 < n2 ) {
+  if ( n2 < n3 ) {
+    println( n1 + " " + n2 + " " + n3 );
+  } 
+  else if ( n1 < n3 ) {
+    println(n1 + " " + n3 + " " + n2);
+  } 
+  else {
+    println(n3 + " " + n1 + " " + n2);
+  }
+} 
+else {
+  if ( n1 < n3 ) {
+    println( n2 + " " + n1 + " " + n3 );
+  } 
+  else if ( n2 < n3 ) {
+    println( n2 + " " + n3 + " " + n1 );
+  } 
+  else {
+    println( n3 + " " + n2 + " " + n1 );
+  }
+} 
+
