@@ -1,21 +1,22 @@
+/** 13 - All the primes up to 1,000 **/
 int primesFound = 0;
 int number = 1;
+boolean isPrime = false;
 
 while( number <= 1000 ) {
-  number++;  
-  if ( isPrime(number) ) {
+  number++;
+
+  isPrime = true;
+  for( int i = 2; i < number; i++ ) {
+    if ( number%i == 0 ) {
+      isPrime = false;
+    }
+  }
+  
+  if ( isPrime ) {
     primesFound++;
     System.out.println("Found the "+primesFound+"th prime: "+number);
   }
 }
 
 System.out.println("Finished!");
-
-boolean isPrime(int number) {
-  for( int i = 2; i < number; i++ ) {
-    if ( number%i == 0 ) {
-      return false;
-    }
-  }
-  return true;
-}

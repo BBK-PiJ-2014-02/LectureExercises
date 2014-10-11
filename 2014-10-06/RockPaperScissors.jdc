@@ -1,17 +1,52 @@
+/** Rock, Paper, Scissors **/
+
+// Create a score array for player 1 and 2
+int player1Score = 0;
+int player2Score = 0;
+
+// Collecting all data in one go
 System.out.println("Please enter the list of results separated by space: (PP PR PS RP RR RS SP SR SS) ");
 String str = System.console().readLine();
-String plays[] = str.split(" ");
-int score[] = new int[2]; // To store player 1 and 2 scores
 
-for(int i = 0; i < plays.length; i++ ) {
+// Storing plays in sequence
+String plays[] = str.split(" ");
+
+
+for( int i = 0; i < plays.length; i++ ) {
   String player1 = plays[i].substring(0,1);
   String player2 = plays[i].substring(1,2);
+
   if ( !(player1.equals(player2)) ) {
     if ( player1.equals("R") ) {
+      if ( player2.equals("P") ) {
+        player2Score++;
+      } else if ( player2.equals("S") ) {
+        player1Score++;
+      }
     } else if ( player1.equals("P") ) {
+      if ( player2.equals("S") ) {
+        player2Score++;
+      } else if ( player2.equals("R") ) {
+        player1Score++;
+      }
     } else if ( player1.equals("S") ) {
+      if ( player2.equals("R") ) {
+        player2Score++;
+      } else if ( player2.equals("P") ) {
+        player1Score++;
+      }
     }
   }
-  System.out.println(plays[i] + " " + player1 + " " + player2);
+
+  if ( Math.abs(player1Score - player2Score) >= 3 ) {
+    String winner = "";
+    if ( player1Score > player2Score ) {
+      winner = "player 1!";
+    } else {
+      winner = "player 2!";
+    }
+    System.out.println("..and the winner is... " + winner);
+    break;
+  }
 }
 

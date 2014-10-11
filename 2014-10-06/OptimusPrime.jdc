@@ -1,0 +1,47 @@
+/** 17 - Optimus Prime **/
+
+// Get an integer from user and prints the nearest prime number
+// If equidistant, print both.
+
+System.out.println( "Find the nearest prime number to any number.\nPlease enter your number:" );
+String str = System.console().readLine();
+int number = Integer.parseInt(str);
+
+int internalNumber = 1;
+int lowerNumber    = 0;
+int higherNumber   = 0;
+boolean isPrime    = true;
+int distanceLow    = -1;
+int distanceHigh   = -1;
+
+while ( true ) {
+  internalNumber++;
+
+  isPrime = true;
+  for ( int i = 2; i < internalNumber; i++ ) {
+    if ( internalNumber % i == 0 ) {
+      isPrime = false;
+      break;
+    }
+  }
+  
+  if ( isPrime ) {
+    if ( internalNumber < number ) {
+      distanceLow = number - internalNumber;
+      lowerNumber = internalNumber;
+    }
+    else if ( internalNumber > number ) {
+      distanceHigh = internalNumber - number;
+      higherNumber = internalNumber;
+      break;
+    }
+  }
+}
+
+if ( distanceLow > distanceHigh ) {
+  System.out.println( "The closest prime number from " + number + " is " + higherNumber + "." );
+} else if ( distanceLow < distanceHigh ) {
+  System.out.println( "The closest prime number from " + number + " is " + lowerNumber + "." );
+} else {
+  System.out.println( "The closest prime numbers from " + number + " are equidistant: " + lowerNumber + " and " + higherNumber + "." );
+}

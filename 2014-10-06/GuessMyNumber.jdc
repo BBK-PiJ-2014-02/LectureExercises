@@ -1,14 +1,20 @@
+/** 15 - Guess my number **/
+
 System.out.println("Try to guess my number!");
 System.out.print("Tell me a number: ");
 String str = System.console().readLine();
+String guessPlural = "es";
 int guessedNumber = Integer.parseInt(str);
-int guesses = 0;
 int numberToGuess = (int) Math.abs(1000 * Math.random());
+int guesses = 0;
 
 while (true) {
   guesses++;
   if ( numberToGuess == guessedNumber ) {
-    System.out.println("CORRECT!\nYou needed "+guesses+" guess(es).");
+    if ( guesses == 1 ) {
+      guessPlural = "";
+    }
+    System.out.println("CORRECT!\nYou needed "+guesses+" guess"+guessPlural+".");
     break;
   }
   else if ( numberToGuess > guessedNumber ) {

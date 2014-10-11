@@ -1,0 +1,46 @@
+/** 18 - Pi **/
+
+// Get an integer from user and uses that number define the number of terms to calculate the value of PI.
+
+System.out.println( "Please enter the amount of terms to be used to calculate PI:" );
+String str = System.console().readLine();
+int      n = Integer.parseInt(str);
+double   nominator, denominator;
+double   pi = 0.0;
+
+for ( int i = 0; i <= n; i++ ) {
+  nominator = -4;
+  if ( i % 2 == 0 ) {
+    nominator = 4;
+  }
+  denominator = (2 * i) + 1;
+  pi += ( nominator / denominator );
+}
+
+System.out.println( "The calculated value of PI is: " + pi );
+
+System.out.println( "Please enter the margin of error e.g.: 0.0001 and I will calculate the needed terms for the first closest value: " );
+str           = System.console().readLine();
+double userPi = Double.parseDouble(str);
+int i         = 0;
+int times     = 0;
+pi            = 0.00;
+double PI     = Math.PI;
+
+while(true) {
+  nominator = -4;
+  if ( i % 2 == 0 ) {
+    nominator = 4;
+  }
+  denominator = (2 * i) + 1;
+  pi += ( nominator / denominator );
+
+  if ( Math.abs( PI - pi ) < userPi ) {
+    times = i;
+    break;
+  }
+  i++;
+}
+
+System.out.println( "You would need to have " + times + " terms for " + userPi + " margin of error which will give you " + pi + ".");
+
