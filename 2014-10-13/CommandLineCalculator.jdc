@@ -1,0 +1,76 @@
+/** Calculator 2 **/
+
+// final converted numbers to calculate
+double num1, num2;
+
+// switch to control when the second number started
+boolean beforeOperation = false;
+
+// various strings
+String input, strNum1 = "", strNum2 = "", operation = "", tmp = "";
+
+/** Program start **/
+while(true) {
+  System.out.println("Please enter [number][operation][number] [Q] to quit:");
+  input = System.console().readLine();
+  strNum1 = "";
+  strNum2 = "";
+  operation = "";
+  tmp = "";
+  num1 = 0;
+  num2 = 0;
+  beforeOperation = false;
+  
+  // User exit key
+  if ( input.equals("Q") | input.equals("q") ) {
+     break;
+  }
+
+  /** Parse input values into strNum1, strNum2 and operation **/
+  for (int i = 0; i < input.length() ; i++ ) {
+    tmp += input.charAt(i);
+  	
+    if ( tmp.equals("/") | tmp.equals("*") | tmp.equals("-") | tmp.equals("+") ) {
+      beforeOperation = true;
+      operation += tmp;
+      continue;
+    }
+  
+    if ( !beforeOperation ) {
+      strNum1 += input.charAt(i);
+    }
+    else {
+      strNum2 += input.charAt(i);
+    }
+    tmp = "";
+  }
+  
+  /** Check if input is valid **/
+  // Simple check to ensure that something was given
+  if ( strNum1.length() > 0 && strNum2.length() > 0 ) {
+    num1 = Double.parseDouble(strNum1);
+    num2 = Double.parseDouble(strNum2);
+  }
+  
+  /** calculate the final value depending on the operation selected **/
+  if ( operation.equals("/") ) {
+    if ( num2 == 0 ) {
+      System.out.println("You cannot divide by zero. Please try again..");
+    }
+    else {
+      System.out.println(num1 + " / " + num2 + " = " + (num1/num2) );
+    }
+  } 
+  else if ( operation.equals("*") ) {
+    System.out.println(num1 + " * " + num2 + " = " + (num1 * num2) );
+  }
+  else if ( operation.equals("-") ) {
+    System.out.println(num1 + " - " + num2 + " = " + (num1-num2) );
+  }
+  else if ( operation.equals("+") ) {
+    System.out.println(num1 + " + " + num2 + " = " + (num1+num2) );
+  }
+  else {
+    System.out.println("Not valid operation, please retry.");
+  }
+}

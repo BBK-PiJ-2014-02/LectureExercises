@@ -1,0 +1,54 @@
+/** Calculator **/
+// Used a class for this example
+  
+String str;
+boolean retry = true;
+CalculatorClass calc = new CalculatorClass();
+
+while (retry) {
+  /** First number **/
+  System.out.println("Please enter first number:");
+  str = System.console().readLine();
+  calc.number1 = Double.parseDouble(str);
+
+  /** Second number **/
+  System.out.println("Please enter second number:");
+  str = System.console().readLine();
+  calc.number2 = Double.parseDouble(str);
+
+  /** Operator **/
+  System.out.println("Please enter the operation:[/,*,-,+]:");
+  calc.operation = System.console().readLine();
+
+  if ( calc.operation.equals("/") ) {
+    if ( calc.number2 == 0.0 ) {
+      System.out.println("Divisor cannot be zero. Please try again.");
+    } 
+    else {
+      System.out.println(calc.number1 + " " + calc.operation + " " + calc.number2 + " = " + (calc.number1/calc.number2));
+      retry = false;
+    }
+  }
+  else if ( calc.operation.equals("*") ) {
+    System.out.println(calc.number1 + " " + calc.operation + " " + calc.number2 + " = " + (calc.number1 * calc.number2));
+    retry = false;
+  }
+  else if ( calc.operation.equals("+") ) {
+    System.out.println(calc.number1 + " " + calc.operation + " " + calc.number2 + " = " + (calc.number1 + calc.number2));
+    retry = false;
+  } 
+  else if ( calc.operation.equals("-") ) {
+    System.out.println(calc.number1 + " " + calc.operation + " " + calc.number2 + " = " + (calc.number1 - calc.number2));
+    retry = false;
+  }
+  else {
+    System.out.println("Not a valid operation, please try again [/,*,-,+]:");
+    retry = true;
+  }
+}
+
+class CalculatorClass {
+  double number1;
+  double number2;
+  String operation;
+}
