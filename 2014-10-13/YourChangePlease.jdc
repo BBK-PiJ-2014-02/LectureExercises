@@ -1,0 +1,41 @@
+/** 03 Your change, please **/
+
+// Store user input
+String input;
+// tmp Strings for rounding purposes
+String tmp;
+
+// YourChange class object
+YourChange change = new YourChange();
+
+/** Product price **/
+System.out.println("How much does it costs? ");
+input = System.console().readLine();
+change.price = Double.parseDouble(input);
+
+/** Amount given **/
+System.out.println("How much did you give? ");
+input = System.console().readLine();
+change.paid = Double.parseDouble(input);
+
+while( true ) {
+  /** correct any error in double conversion **/
+  while ( change.paid < change.price ) {
+    change.diff = change.paid - change.price;
+    System.out.println("...not enough money. I have " + change.paid + " and you need to give me more: " + change.diff); 
+    System.out.print("£: ");
+    input = System.console().readLine();
+    change.paid += Double.parseDouble(input);
+  }
+
+  change.change = round(change.paid) - change.price;
+  System.out.println("Good! So I need to give you: " + change.change );
+  break;
+}
+
+class YourChange {
+  Double price;
+  Double paid;
+  Double diff;
+  Double change;
+}
