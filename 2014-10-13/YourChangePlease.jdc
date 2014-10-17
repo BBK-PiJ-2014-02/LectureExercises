@@ -1,41 +1,98 @@
-/** 03 Your change, please **/
+/** Day 3 - Exercise 3 - Your Change Please **/
 
-// Store user input
-String input;
-// tmp Strings for rounding purposes
-String tmp;
+// Ask the user what is the cost and how much paid
+System.out.println("How much does it cost?");
+String strCost = System.console().readLine();
+System.out.println("How much did you pay?");
+String strPaid = System.console().readLine();
 
-// YourChange class object
-YourChange change = new YourChange();
+/**
+ * Using 100x of the given value to ease out calculation and use int instead
+**/
+int cost      = (int)(100 * Double.parseDouble(strCost));
+int paid      = (int)(100 * Double.parseDouble(strPaid)); 
+int change    = paid - cost;
+int tmpChange = 0;
+String result = "\n";
 
-/** Product price **/
-System.out.println("How much does it costs? ");
-input = System.console().readLine();
-change.price = Double.parseDouble(input);
-
-/** Amount given **/
-System.out.println("How much did you give? ");
-input = System.console().readLine();
-change.paid = Double.parseDouble(input);
-
-while( true ) {
-  /** correct any error in double conversion **/
-  while ( change.paid < change.price ) {
-    change.diff = change.paid - change.price;
-    System.out.println("...not enough money. I have " + change.paid + " and you need to give me more: " + change.diff); 
-    System.out.print("£: ");
-    input = System.console().readLine();
-    change.paid += Double.parseDouble(input);
+if ( change < 0 ) { // more money will be required. 
+  String strChange = "";
+  change = -change;
+  // Pound sign expected
+  if ( change >= 100 ) {
+    // Pound with some pences to be displayed
+    if ( change - ( change / 100 * 100 ) > 0 ) {
+      strChange = "£"+ ( (double)change / 100);
+    }
+    // Only pounds, lose the decimal points
+    else {
+      strChange = "£"+ ( (int)change / 100);
+    }
   }
-
-  change.change = round(change.paid) - change.price;
-  System.out.println("Good! So I need to give you: " + change.change );
-  break;
+  // Pence sign expected
+  else {
+    strChange = change+"p";
+  }
+  System.out.println("Sorry, you can't buy this! You will need " + strChange + " more.");
 }
-
-class YourChange {
-  Double price;
-  Double paid;
-  Double diff;
-  Double change;
+else {
+  // Sigh! Cannot use functions yet...
+  while (change > 0) {
+    if ( change >= 5000 ) {
+      tmpChange = (change / 5000);
+      change = (change % 5000);
+      result += tmpChange + "x£50\n";
+    }
+    else if ( change >= 2000 ) {
+      tmpChange = (change / 2000);
+      change = (change % 2000);
+      result += tmpChange + "x£20\n";
+    }
+    else if ( change >= 1000 ) {
+      tmpChange = (change / 1000);
+      change = (change % 1000);
+      result += tmpChange + "x£10\n";
+    }
+    else if ( change >= 500 ) {
+      tmpChange = (change / 500);
+      change = (change % 500);
+      result += tmpChange + "x£5\n";
+    }
+    else if ( change >= 200 ) {
+      tmpChange = change / 200;
+      change = change % 200;
+      result += tmpChange + "x£2\n";
+    }
+    else if ( change >= 100 ) {
+      tmpChange = change / 100;
+      change = change % 100;
+      result += tmpChange + "x£1\n";
+    }
+    else if ( change >= 50 ) {
+      tmpChange = change / 50;
+      change = change % 50;
+      result += tmpChange + "x50p\n";
+    }
+    else if ( change >= 20 ) {
+      tmpChange = change / 20;
+      change = change % 20;
+      result += tmpChange + "x20p\n";
+    }
+    else if ( change >= 10 ) {
+      tmpChange = change / 10;
+      change = change % 10;
+      result += tmpChange + "x10p\n";
+    }
+    else if ( change >= 5 ) {
+      tmpChange = change / 5;
+      change = change % 5;
+      result += tmpChange + "x5p\n";
+    }
+    else {
+      result += change + "x1p\n";
+      change = 0;
+    }
+  }
+  
+  System.out.println("Your change is: " + result);
 }
