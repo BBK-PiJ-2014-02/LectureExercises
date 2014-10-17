@@ -1,0 +1,51 @@
+/** Day 3 - Exercise 5 - Counting letters **/
+
+System.out.println("\n\n==== Counting Letters ====\n\nPlease enter a line of text: ");
+String input = System.console().readLine();
+
+// Tell the user how many 'e'/'E's are found in given text
+int countE = 0;
+for ( int i = 0; i < input.length(); i++ ) {
+  char c = input.toUpperCase().charAt(i);
+  if ( c == 'E' ) {
+    countE++;
+  }
+}
+System.out.println("There is/are " + countE + " letter 'e'/'E' in your given text.");
+
+
+/** Second part of the program: **/
+//   ask user for letter to check on given string 
+//   and exit if same letter is given again
+String givenLetters = ""; // Use this string as an array (don't know arrays yet - sigh)
+boolean notRepeated = true;
+
+System.out.println("\n\n===== Text to check: =====\n" + input+"\n==============================");
+
+while(notRepeated) {
+  // Check for given letters to check if any dups to exit the application.
+  for ( int i = 0; i < givenLetters.length(); i++ ) {
+    for ( int j = i+1; j < givenLetters.length(); j++ ) {
+      if ( givenLetters.charAt(i) == givenLetters.charAt(j) ) {
+        notRepeated = false;
+        break;
+      }
+    }
+  }
+  if ( notRepeated ) {
+    System.out.println("Please input the letter to check: ");
+    String letter = System.console().readLine();
+    givenLetters += letter;
+    int count = 0;
+  
+    for ( int i = 0; i < input.length(); i++ ) {
+      char c = input.toUpperCase().charAt(i);
+      if ( letter.length() > 0 && letter.toUpperCase().charAt(0) == c ) {
+        count++;
+      }
+    }
+    System.out.println("There is/are " + count + " letter(s) '" + letter + "' in your given text.");
+  }
+}
+System.out.println("Thank you! Good bye!");
+
