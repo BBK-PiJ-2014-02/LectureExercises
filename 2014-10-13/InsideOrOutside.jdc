@@ -1,0 +1,58 @@
+/** Day 3 - Exercise 14 - Inside or Outside **/
+// Request two opposite corner points x and y for a rectangle
+// Request a third point to then say if the third point is inside or outside of the rectangle
+
+// Points and Rectangle initializations
+Point pUpLeft    = new Point();
+Point pDownRight = new Point();
+Point thirdPoint = new Point();
+Rectangle r      = new Rectangle();
+// Assign pointers to Rectangle for one single assignment
+r.upLeft         = pUpLeft;
+r.downRight      = pDownRight;
+// Inside / outside
+String result = "";
+
+// Request three points from user.
+System.out.println("\n\n==== Rectangle - Inside or Outside ====\n\n");
+
+System.out.print("Please enter upLeft point value x: ");
+pUpLeft.x = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter upLeft point value y: ");
+pUpLeft.y = Double.parseDouble(System.console().readLine());
+
+System.out.print("Please enter downRight point value x: ");
+pDownRight.x = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter downRight point value y: ");
+pDownRight.y = Double.parseDouble(System.console().readLine());
+
+System.out.print("Please enter the third point point value x: ");
+thirdPoint.x = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter the third point value y: ");
+thirdPoint.y = Double.parseDouble(System.console().readLine());
+
+/** Check if third point is inside or outside of the rectangle. **/
+// To be inside, thirdPoint.y must be between r.upLeft.y and r.downRight.y, 
+// and thirdPoint.x between r.downRight.x and r.upLeft.x
+
+// We consider on top of the perimeter sill inside of the rectable
+if ( r.upLeft.y >= thirdPoint.y && thirdPoint.y >= r.downRight.y
+  && r.downRight.x >= thirdPoint.x && thirdPoint.x >= r.upLeft.x ) {
+  result = "INSIDE";
+}
+else {
+  result = "OUTSIDE";
+}
+
+System.out.println("The third point given is "+result+" of the rectangle.");
+
+// Class definitions
+class Rectangle {
+  Point upLeft;
+  Point downRight;
+}
+class Point {
+  double x;
+  double y;
+}
+
