@@ -1,0 +1,43 @@
+/** Day 3 - Exercise 7 - Counting letters redux **/
+
+System.out.println("\n\n==== Counting Letters Redux ====\n\n");
+System.out.print("Please enter a line of text: ");
+String input = System.console().readLine();
+
+String givenLetters = ""; // Use this string as an array (don't know arrays yet - sigh)
+boolean notRepeated = true;
+
+System.out.println("\n\n===== Text to check: =====\n" + input+"\n==============================");
+
+while(notRepeated) {
+  System.out.print("Which letter would you like to count now? ");
+  String letter = System.console().readLine();
+  givenLetters += letter;
+  int count = 0;
+  
+  for ( int i = 0; i < input.length(); i++ ) {
+    char c = input.toUpperCase().charAt(i);
+    if ( letter.length() > 0 && letter.toUpperCase().charAt(0) == c ) {
+      count++;
+    }
+  }
+
+  // Check for given letters to check if any dups to exit the application.
+  for ( int i = 0; i < givenLetters.length(); i++ ) {
+    for ( int j = i+1; j < givenLetters.length(); j++ ) {
+      if ( givenLetters.charAt(i) == givenLetters.charAt(j) ) {
+        notRepeated = false;
+        break;
+      }
+    }
+  }
+
+  if ( notRepeated ) {
+    System.out.println("There are " + count + " in your given text.");
+  }
+  else {
+    System.out.println("Repeated character. Exiting the program ..");
+  }
+}
+System.out.println("Thank you for your cooperation. Good bye!");
+
