@@ -1,0 +1,12 @@
+/** Day 3 - Exercise 9 - Palindrome Creator **/
+
+System.out.println("\n\n==== Palindrome Creator ====\n\n");
+System.out.print("Please enter a line of text: ");
+String input = System.console().readLine();
+String reverse = "";
+
+for (int i = 0; i < input.length(); i++) {
+  reverse += input.charAt(input.length()-i-1);
+}
+
+System.out.print(input+reverse);
