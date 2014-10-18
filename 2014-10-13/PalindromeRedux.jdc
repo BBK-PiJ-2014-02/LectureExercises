@@ -1,0 +1,31 @@
+/** Day 3 - Exercise 10 - Palindrome Redux **/
+
+System.out.println("\n\n==== Palindrome Redux ====\n\n");
+System.out.print("Please enter a line of text: ");
+String input = System.console().readLine();
+
+// String input filtered without punctuation
+String strFiltered = "";
+// Palindrome flag
+boolean isPalindrome = true;
+
+// Fileter the input string into strFiltered
+for (int i = 0; i < input.length(); i++) {
+  if ( Character.isLetter(input.charAt(i)) ) {
+    strFiltered += Character.toLowerCase(input.charAt(i));
+  }
+}
+
+for (int i = 0; i < strFiltered.length(); i++) {
+  if ( !(strFiltered.charAt(i) == strFiltered.charAt(strFiltered.length()-i-1)) ) {
+    isPalindrome = false;
+    break;
+  }
+}
+
+if ( isPalindrome ) {
+  System.out.print("Is a Palindrome!");
+}
+else {
+  System.out.print("Is NOT a Palindrome!");
+}
