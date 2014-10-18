@@ -1,0 +1,26 @@
+/** Day 3 - Exercise 6 - Counting pairs of letters **/
+// User enter two strings, and the first is shorter than the second.
+// Application checks how many times the shorter string exists on the second.
+
+System.out.println("\n\n==== Counting Pairs of Letters ====\n");
+System.out.println("\nPlease enter the shorter line of text: ");
+String strShort = System.console().readLine();
+System.out.println("Please enter the longer line of text: ");
+String strLong = System.console().readLine();
+
+// Number of times strShort is found in strLong.
+int times = 0; 
+
+for( int i = 0; i < strLong.length(); i++ ) {
+  int finalized = 0;
+  for( int j = 0; j < strShort.length(); j++ ) {
+    if ( strLong.length() > j+i && strLong.charAt(i+j) == strShort.charAt(j) ) {
+      finalized++;
+    }
+  }
+  if ( finalized == strShort.length() ) {
+    times++;
+  }
+}
+
+System.out.println("There are "+times+" '"+strShort+"' in '"+strLong+"'"); 
