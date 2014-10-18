@@ -1,0 +1,51 @@
+/** Day 3 - Exercise 11 - Text to number **/
+
+System.out.println("\n\n==== Text to number ====\n\n");
+System.out.print("Please enter a number: ");
+String input = System.console().readLine();
+
+// True after the '.' is found
+boolean isAfterPoint = false;
+
+// Number filtered without any commas or dots
+String numberFiltered = "";
+
+// Number of decimal places given after the '.'
+int decimalPlaces = 0;
+
+// Length of the number including decimal places
+int numberSize = 0;
+
+// Final converted number
+double finalNumber = 0;
+
+// Filter the number and count decimal places
+for( int i = 0; i < input.length(); i++ ) {
+  if ( input.charAt(i) == '.' ) {
+     isAfterPoint = true;
+     continue;
+  }
+  if ( input.charAt(i) == ',' ) {
+    continue;
+  }
+  if ( isAfterPoint ) {
+    decimalPlaces++;
+  }
+  numberFiltered += input.charAt(i);
+}
+
+// Convert each number from str to double
+for(int i = 0; i < numberFiltered.length(); i++) {
+  // Move numbers to the left before adding the next
+  finalNumber *= 10; 
+  // Adding the numberic value of for the character
+  finalNumber += Character.getNumericValue(numberFiltered.charAt(i));
+}
+
+if ( decimalPlaces > 0 ) {
+  for(int i = 0; i < decimalPlaces; i++ ) {
+    finalNumber /= 10;
+  }
+}
+
+System.out.println("Your given number: " + input + " was converted to: "+finalNumber);
