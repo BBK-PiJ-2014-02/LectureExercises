@@ -1,72 +1,50 @@
-/** Day 3 - Exercise 15 - Overlaps **/
-// Request two opposite corner points x and y for two rectangles
-// Request a fifth point to then say if the fifth point is inside or outside of 
-// the first rectangle, the second or both
+/** Day 3 - Exercise 14 - Inside or Outside **/
+// Request two opposite corner points x and y for a rectangle
+// Request a third point to then say if the third point is inside or outside of the rectangle
 
 // Points and Rectangle initializations
-Rectangle r1     = new Rectangle();
-Rectangle r2     = new Rectangle();
-Point r1L        = new Point();
-Point r1R        = new Point();
-Point r2L        = new Point();
-Point r2R        = new Point();
-r1.upLeft        = r1L;
-r1.downRight     = r1R;
-r2.upLeft        = r2L;
-r2.downRight     = r2R;
-Point fifthPoint = new Point();
-
-// String result to easy display results.
+Point pUpLeft    = new Point();
+Point pDownRight = new Point();
+Point thirdPoint = new Point();
+Rectangle r      = new Rectangle();
+// Assign pointers to Rectangle for one single assignment
+r.upLeft         = pUpLeft;
+r.downRight      = pDownRight;
+// Inside / outside
 String result = "";
 
 // Request three points from user.
-System.out.println("\n\n==== Rectangle - Overlaps ====\n\n");
+System.out.println("\n\n==== Rectangle - Inside or Outside ====\n\n");
 
-System.out.print("Rectangle1: Please enter upLeft point value x: ");
-r1.upLeft.x = Double.parseDouble(System.console().readLine());
-System.out.print("Rectangle1: Please enter upLeft point value y: ");
-r1.upLeft.y = Double.parseDouble(System.console().readLine());
-System.out.print("Rectangle1: Please enter downRight point value x: ");
-r1.downRight.x = Double.parseDouble(System.console().readLine());
-System.out.print("Rectangle1: Please enter downRight point value y: ");
-r1.downRight.y = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter upLeft point value x: ");
+pUpLeft.x = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter upLeft point value y: ");
+pUpLeft.y = Double.parseDouble(System.console().readLine());
 
-System.out.print("Rectangle2: Please enter upLeft point value x: ");
-r2.upLeft.x = Double.parseDouble(System.console().readLine());
-System.out.print("Rectangle2: Please enter upLeft point value y: ");
-r2.upLeft.y = Double.parseDouble(System.console().readLine());
-System.out.print("Rectangle2: Please enter downRight point value x: ");
-r2.downRight.x = Double.parseDouble(System.console().readLine());
-System.out.print("Rectangle2: Please enter downRight point value y: ");
-r2.downRight.y = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter downRight point value x: ");
+pDownRight.x = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter downRight point value y: ");
+pDownRight.y = Double.parseDouble(System.console().readLine());
 
-System.out.print("Please enter the fifth point point value x: ");
-fifthPoint.x = Double.parseDouble(System.console().readLine());
-System.out.print("Please enter the fifth point value y: ");
-fifthPoint.y = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter the third point point value x: ");
+thirdPoint.x = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter the third point value y: ");
+thirdPoint.y = Double.parseDouble(System.console().readLine());
 
-/** Check if fifth point is inside or outside of the rectangle. **/
-// To be inside, fifthPoint.y must be between rx.upLeft.y and rx.downRight.y, 
-// and fifthPoint.x between rx.downRight.x and rx.upLeft.x
+/** Check if third point is inside or outside of the rectangle. **/
+// To be inside, thirdPoint.y must be between r.upLeft.y and r.downRight.y, 
+// and thirdPoint.x between r.downRight.x and r.upLeft.x
 
 // We consider on top of the perimeter sill inside of the rectable
-if ( r1.upLeft.y >= fifthPoint.y && fifthPoint.y >= r1.downRight.y
-  && r1.downRight.x >= fifthPoint.x && fifthPoint.x >= r1.upLeft.x ) {
-  result = "INSIDE of first rectangle";
+if ( r.upLeft.y >= thirdPoint.y && thirdPoint.y >= r.downRight.y
+  && r.downRight.x >= thirdPoint.x && thirdPoint.x >= r.upLeft.x ) {
+  result = "INSIDE";
 }
 else {
-  result = "OUTSIDE of first rectangle";
+  result = "OUTSIDE";
 }
 
-if ( r2.upLeft.y >= fifthPoint.y && fifthPoint.y >= r2.downRight.y
-  && r2.downRight.x >= fifthPoint.x && fifthPoint.x >= r2.upLeft.x ) {
-  result += "\nINSIDE of second rectangle";
-}
-else {
-  result += "\nOUTSIDE of second rectangle";
-}
-
-System.out.println("The fifth point given is:\n"+result+".");
+System.out.println("The third point given is "+result+" of the rectangle.");
 
 // Class definitions
 class Rectangle {
@@ -77,4 +55,3 @@ class Point {
   double x;
   double y;
 }
-
