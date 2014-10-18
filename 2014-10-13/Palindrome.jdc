@@ -1,0 +1,21 @@
+/** Day 3 - Exercise 8 - Palindrome **/
+
+System.out.println("\n\n==== Palindrome ====\n\n");
+System.out.print("Please enter a line of text: ");
+String input = System.console().readLine();
+
+boolean isPalindrome = true;
+
+for (int i = 0; i < input.length(); i++) {
+  if ( !(input.charAt(i) == input.charAt(input.length()-i-1)) ) {
+    isPalindrome = false;
+    break;
+  }
+}
+
+if ( isPalindrome ) {
+  System.out.print("Your text IS a palindrome.");
+}
+else {
+  System.out.print("Your text is NOT a palindrome.");
+}
