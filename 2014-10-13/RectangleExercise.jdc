@@ -1,0 +1,47 @@
+/** Day 3 - Exercise 13 - Rectangle **/
+// Request two opposite corner points x and y for a rectangle
+// Return the area and the perimeter of the rectangle
+
+// Points and Rectangle initializations
+Point pUpLeft    = new Point();
+Point pDownRight = new Point();
+Rectangle r      = new Rectangle();
+// Assign pointers to Rectangle for one single assignment
+r.upLeft         = pUpLeft;
+r.downRight      = pDownRight;
+// Area and perimeter
+double area = 0;
+double perimeter = 0;
+
+// Request three points from user.
+System.out.println("\n\n==== Rectangle ====\n\n");
+
+System.out.print("Please enter upLeft point value x: ");
+pUpLeft.x = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter upLeft point value y: ");
+pUpLeft.y = Double.parseDouble(System.console().readLine());
+
+System.out.print("Please enter downRight point value x: ");
+pDownRight.x = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter downRight point value y: ");
+pDownRight.y = Double.parseDouble(System.console().readLine());
+
+// Calculate the area of the rectangle
+area = (r.upLeft.y-r.downRight.y)*(r.downRight.x-r.upLeft.x);
+
+// Calculate the perimeter of the recangle
+perimeter = 2*((r.upLeft.y-r.downRight.y)+(r.downRight.x-r.upLeft.x));
+
+System.out.println("The perimeter of the rectangle is: "+perimeter);
+System.out.println("The area of the rectangle is: "+area);
+
+// Class definitions
+class Rectangle {
+  Point upLeft;
+  Point downRight;
+}
+class Point {
+  double x;
+  double y;
+}
+
