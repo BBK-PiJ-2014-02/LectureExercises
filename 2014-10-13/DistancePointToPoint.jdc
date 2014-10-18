@@ -1,0 +1,66 @@
+/** Day 3 - Exercise 12 - Distance Point to Point **/
+// Request three points(x,y) from the user
+// Return the closest point
+
+// Three points
+Point a = new Point();
+Point b = new Point();
+Point c = new Point();
+// Distance between points
+double ab = 0;
+double bc = 0;
+double ca = 0;
+
+// Request three points from user.
+System.out.println("\n\n==== Distance Point to Point ====\n\n");
+
+System.out.print("Please enter point 1 value x: ");
+a.x = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter point 1 value y: ");
+a.y = Double.parseDouble(System.console().readLine());
+
+System.out.print("Please enter point 2 value x: ");
+b.x = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter point 2 value y: ");
+b.y = Double.parseDouble(System.console().readLine());
+
+System.out.print("Please enter point 3 value x: ");
+c.x = Double.parseDouble(System.console().readLine());
+System.out.print("Please enter point 3 value y: ");
+c.y = Double.parseDouble(System.console().readLine());
+
+// Calculate the distance between points
+ab = Math.sqrt(Math.pow((b.x-a.x),2)+Math.pow((a.y-b.y),2));
+bc = Math.sqrt(Math.pow((c.x-b.x),2)+Math.pow((b.y-c.y),2));
+ca = Math.sqrt(Math.pow((a.x-c.x),2)+Math.pow((c.y-a.y),2));
+
+System.out.println("Distance between a and b = " + ab);
+System.out.println("Distance between b and c = " + bc);
+System.out.println("Distance between c and a = " + ca);
+
+// The point in common on the two lowest disctance, is the closest one.
+if ( ab >= bc && bc >= ca ) {
+  System.out.println("C is the closest point.");
+}
+else if ( ab >= ca && ca >= bc ) {
+  System.out.println("C is the closest point.");
+}
+else if ( bc >= ab && ab >= ca ) {
+  System.out.println("A is the closest point.");
+}
+else if ( bc >= ca && ca >= ab ) {
+  System.out.println("A is the closest point.");
+}
+else if ( ca >= ab && ab >= bc ) {
+  System.out.println("B is the closest point.");
+}
+else if ( ca >= bc && bc >= ab ) {
+  System.out.println("B is the closest point.");
+}
+
+// Class definitions
+class Point {
+  double x;
+  double y;
+}
+
