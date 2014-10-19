@@ -1,5 +1,11 @@
 /** Day 3 - Exercise 16 - Mail Server **/
 
+/**
+ * This program was built without functions.
+ * Most of the repeated actions could have been
+ * avoided with functions.
+ **/
+ 
 // Control variables
 boolean isValid = false;
 boolean isQuit  = false;
@@ -25,10 +31,10 @@ while(!isQuit) {
     System.out.print(">>> ");
     String input = System.console().readLine();
 
+    // Check if we have 'QUIT'
     if ( input.length() >= quit.length() ) {
       String quitSubString = input.substring(0,quit.length());
       isQuit = true;
-      // Check if we have 'QUIT'
       for(int i = 0; i < quitSubString.length(); i++) {
         if(!(quitSubString.charAt(i) == quit.charAt(i))) {
           isQuit = false;
@@ -75,20 +81,26 @@ while(!isQuit) {
         if ( email.charAt(0) != '@' ) {
           for(int i = 0; i < email.length(); i++) {
             // If we find a '@', check if the next is not '@' to be successful
-            if (email.charAt(i) == '@' ) {
-                if (email.length() > i+1 ) {
-                if (email.charAt(i+1) != '@') {
-                    isValid = true;
-                    emailFrom = email;
-                    break;
+            if (email.charAt(i) == '@' && email.length() > i+1 ) {
+              for (int j = i+1; j < email.length(); j++ ) {
+                if (email.charAt(j) == '@') {
+                  isValid = false;
+                  break;
+                }
+                else {
+                  isValid = true;
                 }
               }
+              break;
             }
           }
           if (!isValid) {
             System.out.println("Invalid email address");
             continue;
           }
+          else {
+            emailFrom = email;
+	  }
         }
         else {
           System.out.println("Invalid email address");
@@ -121,10 +133,10 @@ while(!isQuit) {
     System.out.print(">>> ");
     String input = System.console().readLine();
     
+    // Check if we have 'QUIT'
     if ( input.length() >= quit.length() ) {
       String quitSubString = input.substring(0,quit.length());
       isQuit = true;
-      // Check if we have 'QUIT'
       for(int i = 0; i < quitSubString.length(); i++) {
         if(!(quitSubString.charAt(i) == quit.charAt(i))) {
           isQuit = false;
@@ -171,20 +183,26 @@ while(!isQuit) {
         if ( email.charAt(0) != '@' ) {
           for(int i = 0; i < email.length(); i++) {
             // If we find a '@', check if the next is not '@' to be successful
-            if (email.charAt(i) == '@' ) {
-              if (email.length() > i+1 ) {
-                if (email.charAt(i+1) != '@') {
-                  isValid = true;
-                  emailTo = email;
+            if (email.charAt(i) == '@' && email.length() > i+1 ) {
+              for (int j = i+1; j < email.length(); j++ ) {
+                if (email.charAt(j) == '@') {
+                  isValid = false;
                   break;
                 }
+                else {
+                  isValid = true;
+                }
               }
+              break;
             }
           }
           if (!isValid) {
             System.out.println("Invalid email address");
             continue;
           }
+          else {
+            emailFrom = email;
+	  }
         }
         else {
           System.out.println("Invalid email address");
@@ -217,10 +235,10 @@ while(!isQuit) {
     System.out.print(">>> ");
     String input = System.console().readLine();
   
+    // Check if we have 'QUIT'
     if ( input.length() >= quit.length() ) {
       String quitSubString = input.substring(0,quit.length());
       isQuit = true;
-      // Check if we have 'QUIT'
       for(int i = 0; i < quitSubString.length(); i++) {
         if(!(quitSubString.charAt(i) == quit.charAt(i))) {
           isQuit = false;
@@ -254,7 +272,18 @@ while(!isQuit) {
       // Command passed successfully. Now collecting data
       // At this point we only finish when we get a '.'
       while(true) {
-        break;
+        String inputData = System.console().readLine();
+        if ( inputData.length() == 1 && inputData.charAt(0) == '.' ) {
+          break;
+        }
+        else {
+          if ( emailData.length() > 0 ) {
+            emailData += "\n" + inputData;
+          }
+          else {
+            emailData = inputData;
+          }
+        }
       }
       
     }
