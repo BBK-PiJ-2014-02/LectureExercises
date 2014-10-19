@@ -1,66 +1,96 @@
 /** Day 3 - Exercise 16 - Mail Server **/
 
-// Control variable
+// Control variables
 boolean isValid = false;
 boolean isQuit  = false;
-// Mail from expected string
+
+// Mail valid command strings
 String mailFrom = "MAIL FROM: ";
 String rcptTo   = "RCPT TO: ";
 String data     = "DATA";
 String quit     = "QUIT";
 
+// Mail user command contents
+String emailFrom = "";
+String emailTo   = "";
+String emailData = "";
+
 System.out.println("\n\n==== Mail Server ====\n\n");
 System.out.println("Welcome to My Mail Server!");
 
-// Get the:>>> MAIL FROM: <valid@email.address>
-while(true) {
-  System.out.print(">>> ");
-  String input = System.console().readLine();
+// Loop until forever. Only isQuit will break this loop
+while(!isQuit) {
+  // Get the:>>> MAIL FROM: <valid@email.address>
+  while(true) {
+    System.out.print(">>> ");
+    String input = System.console().readLine();
 
-  // Check if valid input
-  if ( input.length() >= mailFrom.length() ) {
-    String subString = input.substring(0,mailFrom.length());
-    String email     = input.substring(mailFrom.length());
-    isValid = true;
-
-    // Check if we have 'MAIL FROM: '
-    for(int i = 0; i < subString.length(); i++) {
-      if(!(subString.charAt(i) == mailFrom.charAt(i))) {
-        isValid = false;
+    if ( input.length() >= quit.length() ) {
+      String quitSubString = input.substring(0,quit.length());
+      isQuit = true;
+      // Check if we have 'QUIT'
+      for(int i = 0; i < quitSubString.length(); i++) {
+        if(!(quitSubString.charAt(i) == quit.charAt(i))) {
+          isQuit = false;
+          break;
+        }
+      }
+      
+      if (isQuit) {
         break;
       }
     }
-    if ( !isValid ) {
-      System.out.println("Invalid command.");
-      continue;
-    }
-    
-    isValid = false;
-    // Command passed successfully. Now checking the email
-    if ( email.length() > 0 ) {
-      // Truncate any initial spaces
-      String tempEmail = "";
-      for(int i = 0; i < email.length(); i++) {
-        if ( email.charAt(i) != ' ' ) {
-          tempEmail += email.charAt(i);
+
+    // Check if valid input
+    if ( input.length() >= mailFrom.length() ) {
+      String subString = input.substring(0,mailFrom.length());
+      String email     = input.substring(mailFrom.length());
+      isValid = true;
+     
+      // Check if we have 'MAIL FROM: '
+      for(int i = 0; i < subString.length(); i++) {
+        if(!(subString.charAt(i) == mailFrom.charAt(i))) {
+          isValid = false;
+          break;
         }
       }
-      email = tempEmail;
-
-      // Email must have something before the @
-      if ( email.charAt(0) != '@' ) {
+      if ( !isValid ) {
+        System.out.println("Invalid command.");
+        continue;
+      }
+      
+      isValid = false;
+      // Command passed successfully. Now checking the email
+      if ( email.length() > 0 ) {
+        // Truncate any initial spaces
+        String tempEmail = "";
         for(int i = 0; i < email.length(); i++) {
-          // If we find a '@', check if the next is not '@' to be successful
-          if (email.charAt(i) == '@' ) {
-            if (email.length() > i+1 ) {
-              if (email.charAt(i+1) != '@') {
-                isValid = true;
-                break;
+          if ( email.charAt(i) != ' ' ) {
+            tempEmail += email.charAt(i);
+          }
+        }
+        email = tempEmail;
+  
+        // Email must have something before the @
+        if ( email.charAt(0) != '@' ) {
+          for(int i = 0; i < email.length(); i++) {
+            // If we find a '@', check if the next is not '@' to be successful
+            if (email.charAt(i) == '@' ) {
+                if (email.length() > i+1 ) {
+                if (email.charAt(i+1) != '@') {
+                    isValid = true;
+                    emailFrom = email;
+                    break;
+                }
               }
             }
           }
+          if (!isValid) {
+            System.out.println("Invalid email address");
+            continue;
+          }
         }
-        if (!isValid) {
+        else {
           System.out.println("Invalid email address");
           continue;
         }
@@ -71,134 +101,182 @@ while(true) {
       }
     }
     else {
-      System.out.println("Invalid email address");
-      continue;
-    }
-  }
-  else {
-    System.out.println("Invalid command.");
-  }
-
-  if(isValid) {
-    break;
-  }
-}
-
-System.out.println("OK");
-
-// Get the:>>> RCPT TO: <valid@email.address>
-while(true) {
-  System.out.print(">>> ");
-  String input = System.console().readLine();
-
-  // Check if valid input
-  if ( input.length() >= rcptTo.length()) {
-    String subString = input.substring(0,rcptTo.length());
-    String email     = input.substring(rcptTo.length());
-    isValid = true;
-
-    // Check if we have 'RCPT TO: '
-    for(int i = 0; i < subString.length(); i++) {
-      if(!(subString.charAt(i) == rcptTo.charAt(i))) {
-        isValid = false;
-        break;
-      }
-    }
-    if ( !isValid ) {
       System.out.println("Invalid command.");
-      continue;
     }
-    
-    isValid = false;
-    // Command passed successfully. Now checking the email
-    if ( email.length() > 0 ) {
-      // Truncate any initial spaces
-      String tempEmail = "";
-      for(int i = 0; i < email.length(); i++) {
-        if ( email.charAt(i) != ' ' ) {
-          tempEmail += email.charAt(i);
-        }
-      }
-      email = tempEmail;
-
-      // Email must have something before the @
-      if ( email.charAt(0) != '@' ) {
-        for(int i = 0; i < email.length(); i++) {
-          // If we find a '@', check if the next is not '@' to be successful
-          if (email.charAt(i) == '@' ) {
-            if (email.length() > i+1 ) {
-              if (email.charAt(i+1) != '@') {
-                isValid = true;
-                break;
-              }
-            }
-          }
-        }
-        if (!isValid) {
-          System.out.println("Invalid email address");
-          continue;
-        }
-      }
-      else {
-        System.out.println("Invalid email address");
-        continue;
-      }
-    }
-    else {
-      System.out.println("Invalid email address");
-      continue;
-    }
-  }
-  else {
-    System.out.println("Invalid command.");
-  }
-
-  if(isValid) {
-    break;
-  }
-}
-
-System.out.println("OK");
-
-// Get the:>>> DATA
-while(true) {
-  System.out.print(">>> ");
-  String input = System.console().readLine();
-
-  // Check if valid input
-  if ( input.length() >= data.length()) {
-    String subString = input.substring(0,data.length());
-    String email     = input.substring(data.length());
-    isValid = true;
-
-    // Check if we have 'DATA'
-    for(int i = 0; i < subString.length(); i++) {
-      if(!(subString.charAt(i) == data.charAt(i))) {
-        isValid = false;
-        break;
-      }
-    }
-    if ( !isValid ) {
-      System.out.println("Invalid command.");
-      continue;
-    }
-    
-    // Command passed successfully. Now collecting data
-    // At this point we only finish when we get a '.'
-    while(true) {
+  
+    if(isValid | isQuit) {
       break;
     }
-    
-  }
-  else {
-    System.out.println("Invalid command.");
   }
 
-  if(isValid) {
+  if(isQuit) {
     break;
   }
-}
+  
+  System.out.println("OK");
+  
+  // Get the:>>> RCPT TO: <valid@email.address>
+  isValid = false;
+  while(true) {
+    System.out.print(">>> ");
+    String input = System.console().readLine();
+    
+    if ( input.length() >= quit.length() ) {
+      String quitSubString = input.substring(0,quit.length());
+      isQuit = true;
+      // Check if we have 'QUIT'
+      for(int i = 0; i < quitSubString.length(); i++) {
+        if(!(quitSubString.charAt(i) == quit.charAt(i))) {
+          isQuit = false;
+          break;
+        }
+      }
+      
+      if (isQuit) {
+        break;
+      }
+    }
 
-System.out.println("...done!");
+    // Check if valid input
+    if ( input.length() >= rcptTo.length()) {
+      String subString = input.substring(0,rcptTo.length());
+      String email     = input.substring(rcptTo.length());
+      isValid = true;
 
-// Loop over and over until QUIT is given
+      // Check if we have 'RCPT TO: '
+      for(int i = 0; i < subString.length(); i++) {
+        if(!(subString.charAt(i) == rcptTo.charAt(i))) {
+          isValid = false;
+          break;
+        }
+      }
+      if ( !isValid ) {
+        System.out.println("Invalid command.");
+        continue;
+      }
+      
+      isValid = false;
+      // Command passed successfully. Now checking the email
+      if ( email.length() > 0 ) {
+        // Truncate any initial spaces
+        String tempEmail = "";
+        for(int i = 0; i < email.length(); i++) {
+          if ( email.charAt(i) != ' ' ) {
+            tempEmail += email.charAt(i);
+          }
+        }
+        email = tempEmail;
+  
+        // Email must have something before the @
+        if ( email.charAt(0) != '@' ) {
+          for(int i = 0; i < email.length(); i++) {
+            // If we find a '@', check if the next is not '@' to be successful
+            if (email.charAt(i) == '@' ) {
+              if (email.length() > i+1 ) {
+                if (email.charAt(i+1) != '@') {
+                  isValid = true;
+                  emailTo = email;
+                  break;
+                }
+              }
+            }
+          }
+          if (!isValid) {
+            System.out.println("Invalid email address");
+            continue;
+          }
+        }
+        else {
+          System.out.println("Invalid email address");
+          continue;
+        }
+      }
+      else {
+        System.out.println("Invalid email address");
+        continue;
+      }
+    }
+    else {
+      System.out.println("Invalid command.");
+    }
+  
+    if(isValid | isQuit) {
+      break;
+    }
+  }
+  
+  if(isQuit) {
+    break;
+  }
+
+  System.out.println("OK");
+  
+  // Get the:>>> DATA
+  isValid = false;
+  while(true) {
+    System.out.print(">>> ");
+    String input = System.console().readLine();
+  
+    if ( input.length() >= quit.length() ) {
+      String quitSubString = input.substring(0,quit.length());
+      isQuit = true;
+      // Check if we have 'QUIT'
+      for(int i = 0; i < quitSubString.length(); i++) {
+        if(!(quitSubString.charAt(i) == quit.charAt(i))) {
+          isQuit = false;
+          break;
+        }
+      }
+      
+      if (isQuit) {
+        break;
+      }
+    }
+
+    // Check if valid input
+    if ( input.length() >= data.length()) {
+      String subString = input.substring(0,data.length());
+      String email     = input.substring(data.length());
+      isValid = true;
+
+      // Check if we have 'DATA'
+      for(int i = 0; i < subString.length(); i++) {
+        if(!(subString.charAt(i) == data.charAt(i))) {
+          isValid = false;
+          break;
+        }
+      }
+      if ( !isValid ) {
+        System.out.println("Invalid command.");
+        continue;
+      }
+      
+      // Command passed successfully. Now collecting data
+      // At this point we only finish when we get a '.'
+      while(true) {
+        break;
+      }
+      
+    }
+    else {
+      System.out.println("Invalid command.");
+    }
+  
+    if(isValid | isQuit) {
+      break;
+    }
+  }
+
+  if(isQuit) {
+    break;
+  }
+        
+  System.out.println("Sending email...");
+  System.out.println("from: "+emailFrom);
+  System.out.println("to: "+emailTo);
+  System.out.println(emailData);
+  System.out.println("...done!");
+  
+}  // Loop over and over until QUIT is given
+
+System.out.println("Bye!");
