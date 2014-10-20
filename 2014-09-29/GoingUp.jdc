@@ -8,7 +8,7 @@ while ( true ) {
   if ( i == -1 ) {
     break;
   }
-  if ( i >= 0 && i > max && result == "Yes") {
+  if ( i >= 0 && i > max && result.equals("Yes") ) {
       max = i;
   } else if ( i > 0 && max > i ) {
       result = "No";
