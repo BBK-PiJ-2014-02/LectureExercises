@@ -1,0 +1,49 @@
+/** Day 4 - Exercise 3 - A bit more practice with doubles **/
+
+double totalMorgage = requestDouble("Please enter the amount borrowed for a mortgage: ");
+double yearsToPay   = requestDouble("Please enter the amount of years to pay it: ");
+double interestRate = requestDouble("Please enter the interest rate: ");
+
+System.out.println("Total amount to be paid: "+ totalCost(totalMorgage,interestRate));
+System.out.println("Total money to be paid every year: "+ totalPerYear(totalMorgage,interestRate,yearsToPay));
+System.out.println("Years to pay only the interest: "+ totalYearsForInterestOnly(totalMorgage,interestRate,yearsToPay));
+System.out.println("Years to pay without the interest: "+ totalYearsWithoutInterestOnly(totalMorgage,interestRate,yearsToPay));
+
+
+// Ask user for a double with a taylored message given
+// If not message is given, only requests a double
+double requestDouble(String message) {
+  if (message.length() > 0 ) {
+    System.out.println(message);
+  }
+  String str = System.console().readLine();
+  double d = Double.parseDouble(str);
+  return d;
+}
+
+// Total cost with interest
+double totalCost(double cost, double rate) {
+   return (cost * ( 1 + (rate / 100) ) );
+}
+
+double totalPerYear(double total, double interest, double years) {
+  if( total > 0 && interest > 0 && years > 0 ) {
+    double totalPlusInterest = totalCost(total,interest);
+    double amountPerYear = totalPlusInterest / years;
+    return amountPerYear;
+  }
+  return 0;
+}
+
+double totalYearsForInterestOnly(double total, double interest, double years) {
+  double interestOnly = totalCost(total,interest) - total;
+  double payingPerYear = totalPerYear(total,interest,years);
+  double yearsPayingInterestOnly = interestOnly / payingPerYear;
+  return yearsPayingInterestOnly;
+}
+
+double totalYearsWithoutInterestOnly(double total, double interest, double years) {
+  double payingPerYear = totalPerYear(total,interest,years);
+  double yearsPayingWithoutInterestOnly = total / payingPerYear;
+  return yearsPayingWithoutInterestOnly;
+}

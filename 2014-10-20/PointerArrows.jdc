@@ -1,0 +1,450 @@
+/** Day 4 - Exercise 2 - Pointer, arrows... **/
+
+// 2.1 a) followed given solution
+// 2.2 b) Example from day 3. Diagrams below the code referred by the <- #
+/**
+class Person {
+  int age;
+  String name;
+  Person father;
+  Person mother;
+}
+Person john = new Person();       <- #1
+john.name = "John Smith";         <- #2
+john age = 35;                    <- #3
+Person mary = new Person();       <- #4
+mary.name = "Mary Smith";         <- #5
+mary.age = 32;                    <- #6
+Parson student = new Person();    <- #7
+student.name = "John Smith, Jr."; <- #8
+student.age = 5;                  <- #9
+student.father = john;            <- #10
+student.mother = mary;            <- #11
+System.out.println("Teacher: How old are you, " + student.name + "?");
+System.out.println("Little John: I am " + studen.age + " years old sir.");
+System.out.println("Teacher: Who is your mother?");
+System.out.println("Little John: " + student;name + ", sir");
+
+#1  STACK                               HEAP
+    |Person| |john|---------------->|  |String|  |name|  |
+    |_____________|                 |  |              |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |__________|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+  
+#2  STACK                               HEAP
+    |Person| |john|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "John Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |__________|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+  
+#3  STACK                               HEAP
+    |Person| |john|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "John Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |____35____|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+     
+#4  STACK                               HEAP
+    |Person| |john|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "John Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |____35____|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+                                      
+    |Person| |mary|---------------->|  |String|  |name|  |
+    |_____________|                 |  |              |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |__________|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+  
+#5  STACK                               HEAP
+    |Person| |john|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "John Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |____35____|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+
+    |Person| |mary|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "Mary Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |__________|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+
+#6  STACK                               HEAP
+    |Person| |john|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "John Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |____35____|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+
+    |Person| |mary|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "Mary Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |____32____|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+
+#7  STACK                               HEAP
+    |Person| |john|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "John Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |____35____|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+
+    |Person| |mary|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "Mary Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |____32____|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+
+    |Person| |student|------------->|  |String|  |name|  |
+    |________________|              |  |              |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |__________|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+
+#8  STACK                               HEAP
+    |Person| |john|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "John Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |____35____|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+
+    |Person| |mary|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "Mary Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |____32____|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+
+    |Person| |student|------------->|  |String|       |name|  |
+    |________________|              |  | "John Smith Jr. " |  |
+                                    |  |___________________|  |
+                                    |                         |
+                                    |       |int|  |age|      |
+                                    |       |__________|      |
+                                    |                         |
+                                    |    |Person|  |father|   |
+                                    |    |________________|   |
+                                    |                         |
+                                    |    |Person|  |mother|   |
+                                    |    |________________|   |
+                                    |_________________________|
+
+#9  STACK                               HEAP
+    |Person| |john|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "John Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |____35____|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+
+    |Person| |mary|---------------->|  |String|  |name|  |
+    |_____________|                 |  | "Mary Smith" |  |
+                                    |  |______________|  |
+                                    |                    |
+                                    |    |int|  |age|    |
+                                    |    |____32____|    |
+                                    |                    |
+                                    | |Person|  |father| |
+                                    | |________________| |
+                                    |                    |
+                                    | |Person|  |mother| |
+                                    | |________________| |
+                                    |____________________|
+
+    |Person| |student|------------->|  |String|       |name|  |
+    |________________|              |  | "John Smith Jr. " |  |
+                                    |  |___________________|  |
+                                    |                         |
+                                    |       |int|  |age|      |
+                                    |       |_____5____|      |
+                                    |                         |
+                                    |    |Person|  |father|   |
+                                    |    |________________|   |
+                                    |                         |
+                                    |    |Person|  |mother|   |
+                                    |    |________________|   |
+                                    |_________________________|
+
+#10 STACK                               HEAP
+    |Person| |john|---------------->|  |String|  |name|  |<-----------|
+    |_____________|                 |  | "John Smith" |  |            |
+                                    |  |______________|  |            |
+                                    |                    |            |
+                                    |    |int|  |age|    |            |
+                                    |    |____35____|    |            |
+                                    |                    |            |
+                                    | |Person|  |father| |            |
+                                    | |________________| |            |
+                                    |                    |            |
+                                    | |Person|  |mother| |            |
+                                    | |________________| |            |
+                                    |____________________|            |
+                                                                      |
+    |Person| |mary|---------------->|  |String|  |name|  |            |
+    |_____________|                 |  | "Mary Smith" |  |            |
+                                    |  |______________|  |            |
+                                    |                    |            |
+                                    |    |int|  |age|    |            |
+                                    |    |____32____|    |            |
+                                    |                    |            |
+                                    | |Person|  |father| |            |
+                                    | |________________| |            |
+                                    |                    |            |
+                                    | |Person|  |mother| |            |
+                                    | |________________| |            |
+                                    |____________________|            |
+                                                                      |
+    |Person| |student|------------->|  |String|       |name|  |       |
+    |________________|              |  | "John Smith Jr. " |  |       |
+                                    |  |___________________|  |       |
+                                    |                         |       |
+                                    |       |int|  |age|      |       |
+                                    |       |_____5____|      |       |
+                                    |                         |       |
+                                    |    |Person|  |father|   |       |
+                                    |    |________________|___|_______|
+                                    |                         |
+                                    |    |Person|  |mother|   |
+                                    |    |________________|   |
+                                    |_________________________|
+
+#11 STACK                               HEAP
+    |Person| |john|---------------->|  |String|  |name|  |<-----------
+    |_____________|                 |  | "John Smith" |  |            |
+                                    |  |______________|  |            |
+                                    |                    |            |
+                                    |    |int|  |age|    |            |
+                                    |    |____35____|    |            |
+                                    |                    |            |
+                                    | |Person|  |father| |            |
+                                    | |________________| |            |
+                                    |                    |            |
+                                    | |Person|  |mother| |            |
+                                    | |________________| |            |
+                                    |____________________|            |
+                                                                      |
+    |Person| |mary|---------------->|  |String|  |name|  |<-------|   |
+    |_____________|                 |  | "Mary Smith" |  |        |   |
+                                    |  |______________|  |        |   |
+                                    |                    |        |   |
+                                    |    |int|  |age|    |        |   |
+                                    |    |____32____|    |        |   |
+                                    |                    |        |   |
+                                    | |Person|  |father| |        |   |
+                                    | |________________| |        |   |
+                                    |                    |        |   |
+                                    | |Person|  |mother| |        |   |
+                                    | |________________| |        |   |
+                                    |____________________|        |   |
+                                                                  |   |
+    |Person| |student|------------->|  |String|       |name|  |   |   |
+    |________________|              |  | "John Smith Jr. " |  |   |   |
+                                    |  |___________________|  |   |   |
+                                    |                         |   |   | 
+                                    |       |int|  |age|      |   |   |
+                                    |       |_____5____|      |   |   |
+                                    |                         |   |   |
+                                    |    |Person|  |father|   |   |   |
+                                    |    |________________|___|___|___|
+                                    |                         |   |
+                                    |    |Person|  |mother|   |   |
+                                    |    |________________|___|___|
+                                    |_________________________|
+**/
+
+// 2.3 Follow of execution
+/**
+String requestUser() {
+  String result = System.console().readLine();
+  return result;
+}
+
+void createuSER() {
+  String user = requestUser();
+  whit(!isValidUser(user)) {
+    System.out.println("That name is not valid. Please try again.");
+    user = requestUser();
+  }
+  insertUserInDB(user);
+}
+
+void deleteUser() {
+  String user = requestUser();
+  while (!isValidUser(user)) { 
+    System.out.println("Thatr name is not valid. Please try again.");
+    user = requestUser();
+  }
+  if (existsInDB(user)) {
+    deleteUserInDB(user);
+  } else {
+    System.out.println("That user does not exist.");
+  }
+}
+
+void insertUserInDB(String user) {
+}
+
+void deleteUserFromDB(String user) {
+}
+
+boolean existsInDB(String user) {
+}
+
+booelan isValidUser(String user) {
+  boolean loginIsValid = true;
+  for ( int i = 0; i < login.length(); i++ ) {
+    char c = login.charAt(i);
+    if (!Character.isLetter(c) || !Characted.isLowerCase(c)) {
+      loginIsValid = false;
+    }
+  }
+  return true;
+}
+
+boolean running = true;
+while(running) {
+  System.out.println("What would you like to do?");
+  System.out.println("1 - Enter a new user");
+  System.out.println("2 - Delete a user");
+  System.out.println("0 - Exit");
+  System.out.println(">");
+  String str = System.console().readLine();
+  int option - Integer.parseInt(str);
+  switch (option) {
+    case 0: running = false;
+            break;
+    case 1: createUser();
+            break;
+    case 2: deleteUser();
+            break;
+    default: System.out.println("Invalid option. Please try again.");
+  }
+}
+**/
+// For input 4, 0: 4, is not a valid option (printing the default switch println), then exits when 0 is entered.
+// For input 1, john, 0: Creates user "john" on the database and exits.
+// For input 1, john smith, johnsmith, 0: Creates user "john smith", then prints invalid option for johnsmith and exits at 0.
+// For input 2, userNotInDB, 0: Tries to delete userNotInDB and prints Name nor valid due to Upper case letters, requesting to enter again. Then exits after the 0 is given.
+// For input 1, john, 2, john, 0: Creates user john, then deletes user john and exits.
+

@@ -1,0 +1,6 @@
+/** Day 4 - Exercise 1 - Scope **/
+
+// i is visible between lines 9 and 18
+// j is visible between lines 10 and 16
+// newSize is visible between lines 4 and 6
+// size is visible between 01 and 20
