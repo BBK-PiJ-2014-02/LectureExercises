@@ -1,13 +1,15 @@
 /** Day 4 - Exercise 3 - A bit more practice with doubles **/
 
-double totalMorgage = requestDouble("Please enter the amount borrowed for a mortgage: ");
-double yearsToPay   = requestDouble("Please enter the amount of years to pay it: ");
-double interestRate = requestDouble("Please enter the interest rate: ");
+MortgageCalculator mc = new MortgageCalculator();
 
-System.out.println("Total amount to be paid: "+ totalCost(totalMorgage,interestRate));
-System.out.println("Total money to be paid every year: "+ totalPerYear(totalMorgage,interestRate,yearsToPay));
-System.out.println("Years to pay only the interest: "+ totalYearsForInterestOnly(totalMorgage,interestRate,yearsToPay));
-System.out.println("Years to pay without the interest: "+ totalYearsWithoutInterestOnly(totalMorgage,interestRate,yearsToPay));
+mc.totalMorgage = requestDouble("Please enter the amount borrowed for a mortgage: ");
+mc.yearsToPay   = requestDouble("Please enter the amount of years to pay it: ");
+mc.interestRate = requestDouble("Please enter the interest rate: ");
+
+System.out.println("Total amount to be paid: " + mc.totalCost());
+System.out.println("Total money to be paid every year: " + mc.totalPerYear());
+System.out.println("Years to pay only the interest: " + mc.totalYearsForInterestOnly());
+System.out.println("Years to pay without the interest: " + mc.totalYearsWithoutInterestOnly());
 
 
 // Ask user for a double with a taylored message given
@@ -21,29 +23,36 @@ double requestDouble(String message) {
   return d;
 }
 
-// Total cost with interest
-double totalCost(double cost, double rate) {
-   return (cost * ( 1 + (rate / 100) ) );
-}
 
-double totalPerYear(double total, double interest, double years) {
-  if( total > 0 && interest > 0 && years > 0 ) {
-    double totalPlusInterest = totalCost(total,interest);
-    double amountPerYear = totalPlusInterest / years;
-    return amountPerYear;
+class MortgageCalculator {
+  double totalMorgage;
+  double yearsToPay;
+  double interestRate;
+
+  // Total cost with interest
+  double totalCost() {
+     return (this.totalMorgage * ( 1 + (this.interestRate / 100) ) );
   }
-  return 0;
-}
 
-double totalYearsForInterestOnly(double total, double interest, double years) {
-  double interestOnly = totalCost(total,interest) - total;
-  double payingPerYear = totalPerYear(total,interest,years);
-  double yearsPayingInterestOnly = interestOnly / payingPerYear;
-  return yearsPayingInterestOnly;
-}
+  double totalPerYear() {
+    if( this.totalMorgage > 0 && this.interestRate > 0 && this.yearsToPay > 0 ) {
+      double totalPlusInterest = this.totalCost();
+      double amountPerYear = totalPlusInterest / this.yearsToPay;
+      return amountPerYear;
+    }
+    return 0;
+  }
 
-double totalYearsWithoutInterestOnly(double total, double interest, double years) {
-  double payingPerYear = totalPerYear(total,interest,years);
-  double yearsPayingWithoutInterestOnly = total / payingPerYear;
-  return yearsPayingWithoutInterestOnly;
+  double totalYearsForInterestOnly() {
+    double interestOnly = this.totalCost() - this.totalMorgage;
+    double payingPerYear = this.totalPerYear();
+    double yearsPayingInterestOnly = interestOnly / payingPerYear;
+    return yearsPayingInterestOnly;
+  }
+
+  double totalYearsWithoutInterestOnly() {
+    double payingPerYear = this.totalPerYear();
+    double yearsPayingWithoutInterestOnly = this.totalMorgage / payingPerYear;
+    return yearsPayingWithoutInterestOnly;
+  }
 }
