@@ -1,0 +1,60 @@
+/** Day 4 - Exercise 7 - Integer **/
+
+Integer2 i2 = new Integer2();
+
+System.out.print("Enter a number ");
+String str = System.console().readLine();
+int i = Integer.parseInt(str);
+i2.setValue(i);
+
+System.out.print("The number you entered is: ");
+
+if ( i2.isEven() ) {
+  System.out.println("even.");
+
+} else if ( i2.isOdd() ) {
+  System.out.println("odd.");
+
+} else {
+  System.out.println("undefined!! You code is buggy!");
+}
+
+int parsedInt = Integer.parseInt(i2.toSTring());
+
+if (parsedInt == i2.getValue()) {
+  System.out.println("Your toString() method seems to work fine.");
+}
+
+
+
+class Integer2 {
+  int v;
+  
+  int getValue() {
+    return v;
+  }
+  
+  void setValue(int v) {
+    this.v = v;
+  }
+  
+  boolean isEven() {
+    if ((this.v % 2) == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  
+  boolean isOdd() {
+    return !isEven();
+  }
+  
+  void prettyPrint() {
+    System.out.println("Integer: " + this.v);
+  }
+  
+  String toSTring() {
+    return "" + this.v;
+  }
+}

@@ -1,0 +1,63 @@
+/** Day 4 - Exercise 6 - More on Points **/
+
+Point p1 = new Point(1,2);
+Point p2 = new Point(2,3);
+Point p3 = p1.cloner();
+Point p4 = p3.opposite();
+
+System.out.println("Point p1(" + p1.x + "," + p1.y + ")");
+System.out.println("Point p2(" + p2.x + "," + p2.y + ")");
+System.out.println("Point p3(" + p3.x + "," + p3.y + ")");
+System.out.println("Point p4(" + p4.x + "," + p4.y + ")");
+System.out.println("Distance p1 to p2: " + p1.distanceTo(p2));
+System.out.println("Distance p1 to Origin: " + p1.distanceToOrigin());
+System.out.println("Move p1 to 4,5: " + p1.moveTo(4,5).display());
+System.out.println("Move p1 to p2: " + p1.moveTo(p2).display());
+System.out.println("Move p1 to 6,7: " + p1.moveTo(6,7).display());
+
+
+class Point {
+  double x;
+  double y;
+  
+  Point(double x, double y) {
+    this.x = x;
+    this.y = y;
+  }
+    
+  double distanceTo(Point p) {
+    return Math.sqrt(Math.abs((p.x-this.x)+(p.y-this.y)));
+  }
+  
+  double distanceToOrigin() {
+    return distanceTo(new Point(0,0));
+  }
+
+  Point moveTo(double x, double y) {
+    this.x = x;
+    this.y = y;
+    return this;
+  }
+  
+  Point moveTo(Point p) {
+    this.x = p.x;
+    this.y = p.y;
+    return this;
+  }
+  
+  // Problem: clone() in Point cannot override clone() in ava.lang.Object
+  // attempting to assign weaker access privileges; was protected
+  // using cloner() instead.
+  Point cloner() {
+    return new Point(this.x, this.y);
+  }
+  
+  Point opposite() {
+    return new Point(- this.x, - this.y);
+  }
+
+  // Prints current x,y values
+  String display() {
+    return "("+this.x+","+this.y+")";
+  }
+}

@@ -1,0 +1,170 @@
+/** Day 4 - Exercise 5 - Binary and hexadecimal **/
+
+Convertor c = new Convertor();
+
+while(true) {
+  System.out.println("\n\n=============== Menu ===============");
+  System.out.println("\n\t1 - Binary to decimal");
+  System.out.println("\n\t2 - Binary to Hexadecimal");
+  System.out.println("\n\t3 - Decimal/hexadecimal 0x to binary");
+  System.out.println("\n\t4 - Quit\n\n");
+  System.out.print("Choose option 1-4 :> ");
+  String input = System.console().readLine();
+
+  if( input.equals("1") ) {
+    System.out.print("Enter your binary number :> ");
+    input = System.console().readLine();
+    System.out.println("Binary(" + input + ") = Decimal("+ c.binary2decimal(input) + ")\n[Enter]");
+    input = System.console().readLine();
+
+  } else if( input.equals("2") ) {
+    System.out.print("Enter your binary number :> ");
+    input = System.console().readLine();
+    System.out.println("Binary(" + input + ") = Hexadecimal("+ c.binary2hexadecimal(input) + ")\n[Enter]");
+    input = System.console().readLine();
+
+  } else if( input.equals("3") ) {
+    System.out.print("Enter your decimal/hexadecimal 0x number :> ");
+    input = System.console().readLine();
+
+    if ( input.charAt(0) == '0' && input.charAt(1) == 'x' ) {
+      System.out.println("Hexadecimal(" + input + ") = Binary("+ c.hexadecimal2binary(input) + ")\n[Enter]");
+    } else {
+      int i = Integer.parseInt(input);
+      System.out.println("Decimal(" + input + ") = Binary("+ c.decimal2binary(i) + ")\n[Enter]");
+    }
+    input = System.console().readLine();
+
+  } else if( input.equals("4") ) {
+    System.out.println("Bye.");
+    break;
+
+  } else {
+    System.out.println("Not a valid option, please try again.");
+  }
+}
+
+class Convertor {
+  String binary;
+  int decimal;
+  String hexadecimal;
+
+  int binary2decimal(String bin) {
+    int decimal = 0;
+
+    // Reverse string to match index to Math powers.
+    bin = reverse(bin);
+
+    for(int i = 0; i < bin.length(); i++) {
+      decimal += Math.pow(2,i) * Character.getNumericValue(bin.charAt(i));
+    }
+
+    return decimal;
+  }
+
+  String hexadecimal2binary(String hex) {
+    String hexadecimal = hex.substring(2);
+    String binary = "";
+    
+    for(int i = 0; i < hexadecimal.length(); i++) {
+      String bin = decimal2binary(Character.getNumericValue(hexadecimal.charAt(i)));
+      if ( bin.length() == 4 ) {
+        if ( binary.length() > 0 ) {
+          binary += " "+bin;
+        } else {
+          binary += bin;
+        }
+      } else {
+        int zeros = bin.length();
+        zeros = 4 - zeros;
+        if (binary.length() > 0 ) {
+          binary += " ";
+        }
+        for(int j = 0; j < zeros; j++) {
+          binary += "0";
+        }
+        binary += bin;
+      }
+    }
+    return binary;
+  }
+  
+  String binary2hexadecimal (String bin) {
+    String hex = "";
+    // Ensure we get even four bit groups
+    int zerosToAdd = (bin.length() % 4);
+
+    if ( zerosToAdd > 0 ) {
+      String zeros = "";
+
+      for(int i = 0; i < (4-zerosToAdd); i++) {
+        zeros += "0";
+      }
+
+      bin = zeros + bin;
+    }
+
+    for(int i = 0; i < bin.length(); i+=4) {
+      hex += bin4ToHex(bin.substring(i,i+4));
+    }
+    
+    return hex;
+  }
+
+  // Accepts only 4 bits and converts to hex
+  String bin4ToHex (String bin) {
+    int dec = binary2decimal(bin);
+    if ( dec < 10 ) {
+      return ""+dec;
+    } else if ( dec == 10 ) {
+      return "a";
+    } else if ( dec == 11 ) {
+      return "b";
+    } else if ( dec == 12 ) {
+      return "c";
+    } else if ( dec == 13 ) {
+      return "d";
+    } else if ( dec == 14 ) {
+      return "e";
+    } else if ( dec == 15 ) {
+      return "f";
+    } else {
+      return "";
+    }
+  }
+  
+  String decimal2binary(int dec) {
+    String bin = "";
+
+    while(true) {
+
+      // Break when not possible to divide more
+      if ( dec == 0 ) {
+        break;
+      }
+    
+      int rem = dec % 2;
+      if ( rem == 1 ) {
+        bin += "1";
+      } else {
+        bin += "0";
+      }
+      dec /= 2;
+     
+    }
+
+    return reverse(bin);
+  }
+
+  // Return the same str reversed.
+  // Avoiding to use pre-defined functions at this stage
+  String reverse( String str ) {
+    String reserved = "";
+
+    for(int i = str.length()-1; i >= 0; i--) {
+      reserved += str.charAt(i);
+    }
+
+    return reserved;
+  }
+}

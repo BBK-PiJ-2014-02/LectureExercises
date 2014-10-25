@@ -12,8 +12,8 @@ System.out.println("Years to pay only the interest: " + mc.totalYearsForInterest
 System.out.println("Years to pay without the interest: " + mc.totalYearsWithoutInterestOnly());
 
 
-// Ask user for a double with a taylored message given
-// If not message is given, only requests a double
+// Ask user for a double with a tailored message given
+// If no message is given, only requests a double
 double requestDouble(String message) {
   if (message.length() > 0 ) {
     System.out.println(message);
