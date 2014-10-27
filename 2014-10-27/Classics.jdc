@@ -1,0 +1,55 @@
+/** Day 5 - Exercise 2 - Classics **/
+
+/** a) Factorial **/
+
+// Recursive
+int factorial( int n ) {
+  if ( n <= 0 ) {
+    return 1;
+  }
+  return factorial(n-1) * n;
+}
+
+// Iteractive
+int factorial2( int n ) {
+  int result = 1;
+  for(int i = n; i > 0; i--) {
+    result *= i;
+  }
+  return result;
+}
+
+
+/** b) Fibonacci **/
+
+// Recursive
+int fibo( int n ) {
+  if ( n < 2 ) {
+    return 1;
+  }
+  return ( fibo(n-1) + fibo(n-2) );
+}
+
+// Iteractive
+int fibo2( int n ) {
+  int result   = 1;
+  int prev     = 1;
+  int prevprev = 1;
+  for ( int i = n; i >= 2; i-- ){
+    prevprev = prev;
+    prev     = result;
+    if ( prev > 0 && prevprev > 0 ) {
+      result = prev + prevprev;
+    } 
+  }
+  return result;
+}
+
+
+/** c) Hannoi towers **/
+long hannoi( int discs ) {
+  if ( discs <= 1 ) {
+    return 1;
+  }
+  return ( 2 * hannoi(discs-1) + 1 );
+}
