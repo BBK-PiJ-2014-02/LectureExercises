@@ -1,2 +1,0 @@
-
-Tool completed with exit code 3
