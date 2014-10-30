@@ -1,0 +1,26 @@
+/** Day 5 - Exercise 5 - Power **/
+
+MathIterative pi = new MathIterative();
+System.out.println("powI(2,16) = " + pi.pow(2,16));
+
+MathRecursive pr = new MathRecursive();
+System.out.println("powR(2,16) = " + pr.pow(2,16));
+
+class MathIterative {
+  static long pow(int base, int exponent) {
+    long pow = base;
+    for ( int i = 1; i < exponent; i++ ) {
+      pow *= base;
+    }
+    return pow;
+  }
+}
+
+class MathRecursive {
+  static long pow(int base, int exponent) {
+    if ( exponent == 0 ) {
+      return 1;
+    }
+    return base * pow(2,exponent-1);
+  }
+}
