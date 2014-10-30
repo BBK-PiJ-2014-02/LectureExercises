@@ -1,0 +1,69 @@
+/** Day 5 - Exercise 3 - Paper Sizes **/
+
+// Initialise the class
+PaperSize ps = new PaperSize();
+// Set the paper size we want
+ps.setSize("a10");
+// Display results
+ps.display();
+
+class PaperSize {
+  // A0-x standard size
+  static final double a0X = 841;
+  // A0-y standard size
+  static final double a0Y = 1189;
+  // Calculated x size
+  double x;
+  // Calculated y size
+  double y;
+  // Label of the paper size, e.g.: A4
+  String label;
+  // Size label, e.g.: 210mm x 297mm
+  String size;
+  
+  // Constructor
+  PaperSize() {
+    this.label = "Not Set";
+    this.size  = "Not Set";
+  }
+  
+  // Display function
+  void display() {
+    System.out.println("Paper: "+this.label+" | Size: "+this.size);
+  }
+  
+  // Setting the size e.g.: "A3"
+  void setSize( String paperSize ) {
+    // This is the defaule response unless we find something valid
+    this.label = "Invalid paper size supplied";
+
+    if ( paperSize != null && paperSize.length() > 1 ) {
+      // Expecting first characted to be an A
+      if ( Character.toUpperCase(paperSize.charAt(0)) == 'A' ) {
+        // Parse the number after the A into integer value
+        int size = Integer.parseInt(paperSize.substring(1));
+        this.label = paperSize;
+        // Calculate the respective size from A0
+        this.calculateSize(size);
+        this.size  = this.x + "mm X " + this.y + "mm";
+      }
+    }
+  }
+  
+  void calculateSize(int size) {
+    // By default, we assume A0 was given.
+    this.x = this.a0X;
+    this.y = this.a0Y;
+    
+    // Keep dividing by two the biggest size
+    // until we get the size requested
+    for ( int i = 0 ; i < size; i++ ) {
+      if ( this.x > this.y ) {
+        this.x /= 2;
+      }
+      else {
+        this.y /= 2;
+      }
+    }
+  }
+}
