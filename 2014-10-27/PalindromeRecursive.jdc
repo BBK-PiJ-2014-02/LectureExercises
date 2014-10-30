@@ -1,0 +1,15 @@
+/** Day 5 - Exercise 4 - Palindrome **/
+
+// Accepts A or a as the same
+boolean isPalindrome(String str) {
+  int length = str.length();
+  if ( length <= 1 ) {
+    return true;
+  }
+
+  if ( Character.toUpperCase(str.charAt(0)) == Character.toUpperCase(str.charAt(length-1)) ) {
+    String subString = str.substring(1,length-1);
+    return isPalindrome(subString);
+  }
+  return false;    
+}
