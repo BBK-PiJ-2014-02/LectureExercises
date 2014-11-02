@@ -1,7 +1,7 @@
 /** Day 5 - Exercise 6 - Eight Dames **/
 
 ChessCalc cc = new ChessCalc(8,8);
-cc.place(2);
+cc.place(3);
 //cc.show();
 
 class ChessCalc {
@@ -16,93 +16,99 @@ class ChessCalc {
     this.ySize = y;
   }
 
-  void place(int d) {
-    int dame = 0;
-    this.dameList = new Dame[d];
-    refreshAll();
+// DEBUG
+void pause(String str) { System.out.println(str); System.console().readLine(); }
 
-    while( dame < d ) {
-      if ( dameList[dame] == null ) {
-        dameList[dame] = new Dame(0,0);
-        refreshTestBoard();
-        if ( dame <= d ) {
-          dame++;
+  void place(int d) {
+    this.dameList = new Dame[d];
+    // Initialize with dame zero
+    refreshAll();
+    int dame = 0;
+
+    while( !tmpCb.isLastPosition(this.dameList[dame]) ) {
+pause("dame: "+dame);
+      if ( this.dameList[dame] == null ) {
+        this.dameList[dame] = new Dame(0,0);
+      }
+      else {
+pause("dame NOT NULL: "+dame+"("+dameList[dame].x+","+dameList[dame].y+")");
+        // Save current Dame into dd
+        Dame dd = dameList[dame];
+        // Reset the board where this dame is
+        dameList[dame] = null;
+        tmpCb.reset(dameList);
+        // find the next position for the dame
+
+tmpCb.display();
+pause("dd NOT NULL: "+dame+"("+dd.x+","+dd.y+")");
+
+        tmpCb.next(tmpCb,dd);
+tmpCb.display();
+pause("dd2 NOT NULL: "+dame+"("+dd.x+","+dd.y+")");
+        // Check for first position starting with the one previously next-set until one is found
+        while ( !tmpCb.isDameSafe(dd) && !tmpCb.isLastPosition(dd) ) {
+          dd = tmpCb.next(tmpCb,dameList[dame]);
+        }
+        
+        // If we reached the end of the board without
+        // a safe position, we need to move previous dame forward
+        if ( tmpCb.isLastPosition(dd) ) {
+          // If this is the first dame ends the search
+          if ( dame == 0 ) {
+            break;
+          }
+          else {
+            dameList[dame] = null;
+            pause("dame-1");
+            // call same all again with dame-1
+            dame--;
+          }
+        } 
+        else {
+          this.dameList[dame] = dd;
+          // If this was the last dame to be added, end
+          if ( dame+1 == d ) {
+            break;
+          }
+          // Check next possible dame to be positioned
+          else {
+            pause("dame+1");
+            // call this all again with dame+1
+            dameList[dame+1] = dd;
+            dame++;
+          }
+//        tmpCb.next(tmpCb,dameList[dame]);
         }
       }
-Dame dd = tmpCb.getFirstDameSafe(tmpCb,dameList);
-System.out.println("Dame save:("+dd.x+","+dd.y+")");
-
-      if ( dameList[dame] != null ) {
-System.out.println("Moving dame: "+dame+" ("+dameList[dame].x+","+dameList[dame].y+")");
-        Dame tmp = new Dame(dameList[dame].x,dameList[dame].y);
-        dameList[dame] = null;
-        tmp.moveNextSafe(tmpCb,dameList);
-        dameList[dame] = tmp;
-        refreshTestBoard();
-      }
-//      Dame tmp = new Dame(dameList[dame]);
-//      if ( tmp.moveNextSafe(tmpCb,dameList) ) {
-//      }
-//      else {
-//        break;
-//      }
-
-
-//      // This is the first time we are checking this one
-//      if ( dameList[dame] == null && dame > 0 ) {
-//        // Get last Dame's position to start from
-//        dameList[dame] = new Dame(dameList[dame-1].x,dameList[dame-1].y);
-//      }
-//
-//      // We are back at the beginning move first dame to next position
-//      if ( dame == 0 ) {
-//        Dame first = dameList[0];
-//        dameList   = new Dame[d];
-//        refreshTestBoard();
-//        if ( first.moveNextSafe(tmpCb) ) {
-//          dameList[0] = first;
-//          // Special case
-//          if ( d == 1 ) {
-//            refreshTestBoard();
-//          }
-//          else {
-//            dame++;
-//            refreshTestBoard();
-//          }
-//          continue;
-//        }
-//        else {
-//          // We reached the end
-//          break;
-//        }
-//      }
-//
-//System.out.println(":> "+dame); System.console().readLine();
-//
-//      // This is not the first one, so lets carry on by finding the next possible place for this dame.
-//      Dame next = dameList[dame];
-//      if ( dameList[dame].moveNextSafe(tmpCb) ) {
-//        refreshTestBoard();
-//        // Found a next safe place for this dame. Carry on with next
-//        if ( dame+1 < d ) {
-//          dame++;
-//        } else {
-//          // Found one solution.
-//          refreshAll();
-//        }
-//      } else {
-//        // Not found a safe place for this dame. Need to move previous dame to a new place and see what we can do.
-//        dameList[dame] = null;
-//        dame--;
-//      }
-
+      
+      displayDames();
+      refreshTestBoard();
+      tmpCb.display();
+      pause("2");
     } // End while
-
-//    displayDames();
-//    refreshAll();
-//    cb.display();
   }
 
+  boolean getNextPosition(ChessBoard cb, Dame[] dameList, int dameIndex) {
+    if ( dameIndex > dameList.length ) {
+      return true;
+    }
+    
+    if ( dameList[dameIndex] == null ) {
+      dameList[dameIndex] = new Dame(0,0);
+    }
+    
+//    while( !cb.isLastPosition(dameList[dameIndex]) ) {
+//      // Get next safe position
+//      if ( dameList[dameIndex] == null ) {
+//      }
+//      displayDames();
+//      refreshTestBoard();
+//      cb.display();
+//      pause();
+//    } // End while
+    return true;
+  }
+  
   void displayDames() {
     for ( int i = 0; i < this.dameList.length; i++ ) {
       if ( this.dameList[i] != null ) {
@@ -117,14 +123,11 @@ System.out.println("Moving dame: "+dame+" ("+dameList[dame].x+","+dameList[dame]
   // Place damesList onto a clean tmp Chess Board
   void refreshTestBoard() {
     this.tmpCb.reset(dameList);
-displayDames();
-tmpCb.display();
-System.console().readLine();
   }
   
   // Place damesList onto a clean Chess Board.  
   void refreshBoard() {
-    this.cb.reset(dameList);
+    this.cb.reset(this.dameList);
   }
 
   void refreshAll() {
@@ -151,7 +154,8 @@ class Dame {
   
   // Move dame into the next safe position from current x,y 
   // to next left to right, top to bottom position
-  boolean moveNextSafe(ChessBoard cb, Dame[] dameList) {
+  Dame moveNextSafe(ChessBoard cb, Dame[] dameList, int dameIndex) {
+    dameList[dameIndex] = null;
     cb.reset(dameList);
     for ( int y = this.y; y < cb.yMax; y++ ) {
       int x;
@@ -162,14 +166,18 @@ class Dame {
         x = 0;
       }
       for ( ;x < cb.xMax; x++ ) {
-        if ( cb.isDameSafe(x,y) && (this.x != x || this.y != y) ) {
+        if ( this.x == x && this.y == y ) {
+          continue;
+        }
+        if ( cb.isDameSafe(x,y) ) {
           this.x = x;
           this.y = y;
-          return true;
+//          dameList[dameIndex] = this;
+          return this;
         }
       }
     }
-    return false;
+    return null;
   }
   
   void display() {
@@ -234,6 +242,19 @@ class ChessBoard {
     }
   }
   
+  Dame next(ChessBoard cb, Dame d) {
+    if ( d.x+1 < cb.xMax ) {
+      d.x++;
+      return d;
+    } else if ( d.y+1 < cb.yMax ) {
+      d.x = 0;
+      d.y++;
+      return d;
+    } else {
+      return d;
+    }
+  }
+  
   Dame getFirstDameSafe(ChessBoard cb, Dame[] dameList) {
     cb.reset(dameList);
     for(int y = 0; y < cb.yMax; y++ ) {
@@ -244,6 +265,13 @@ class ChessBoard {
       }
     }
     return null;
+  }
+  
+  boolean isLastPosition(Dame d) {
+    if ( d != null && d.x+1 >= this.xMax && d.y+1 >= this.yMax ) {
+      return true;
+    }
+    return false;
   }
   
   boolean isDameSafe(Dame d) {
