@@ -9,6 +9,8 @@ class ChessCalc {
   ChessBoard cb;
   ChessBoard results[];
   Dame dameList[];
+  int damesToSet;
+  boolean DEBUG = true;
 
   ChessCalc(int x, int y) {
     this.cb    = new ChessBoard(x,y);
@@ -16,34 +18,53 @@ class ChessCalc {
     this.ySize = y;
   }
 
+  // Return true if all dames have been set on the board
+  boolean allDamesPlaced() {
+    int dames = 0;
+
+    for( int i = 0; i < dameList.length; i++ ) {
+      if ( dameList[i] != null ) {
+        dames++;
+      }
+    }
+
+    if ( dames == this.damesToSet ) {
+      return true;
+    }
+
+    return false;
+  }
+  
   void placeDames() {
     // Place all possible initial dames on the board
     placeMaxDames();
 
-    refreshBoard();
-    cb.display();
-    pause("Dames placed");
+    do {
+      if ( allDamesPlaced() ) {
+        refreshBoard();
+        cb.display();
+        pause("ALL DAMES PLACED!!\nSearch for next solution?");
+      }
 
-    while(true) {
-//      if(allPlaced()) {
-        refreshBoard();
-        cb.display();
-        pause("ALL DAMES PLACED!!");
-//      }
-      moveLast();
-//      if(allPlaced()) {
-        refreshBoard();
-        cb.display();
-//        pause("ALL DAMES PLACED!!");
-//      }
-      placeMaxDames();
+      // If last dame cannot be placed on a new safe forward point, remove it.
+      // Move previous dame to new safe position and repeat this until one is moved no more moves possible
+      if ( getLastPlacedDameIndex() >= 0 ) {
+        // We have a valid index try place more dames on the board after this one
+        placeAllPossibleDamesAfterLast();
+        if ( moveLastPlacedDame() < 0 ) {
+          removeLastPlacedDame();
+          moveLastPlacedDame();
+          if ( placeAllPossibleDamesAfterLast() ) {
+            removeLastPlacedDame();
+          }
+        }
+      }
+      
       refreshBoard();
-//      if(allPlaced()) {
-        refreshBoard();
-        cb.display();
-//        pause("ALL DAMES PLACED!!");
-//      }
-    }
+      cb.display();
+      pause("END.");
+          
+    } while ( getLastPlacedDameIndex() >= 0 );
   }
   
 // DEBUG
@@ -51,12 +72,13 @@ void pause(String str) { System.out.println(str); System.console().readLine(); }
 
   // Setting the amount of dames to place on the board
   void setDames(int dames) {
-    this.dameList = new Dame[dames];
+    this.dameList   = new Dame[dames];
+    this.damesToSet = dames;
   }
   
   // Check if all dames have been placed
   boolean allPlaced() {
-    int index = getLastDameIndex();
+    int index = getLastPlacedDameIndex();
     if ( dameList.length <= index+2 ) {
       return true;
     }
@@ -70,70 +92,132 @@ void pause(String str) { System.out.println(str); System.console().readLine(); }
    *     If dame 0 reaches the end, exists
   **/
   
-  // 1 - Place as many dames as possible on first possible positions
-  //     NOTE: no ChessBoard refresh is done at this point
+  // Place as many dames as possible on first possible positions
+  // This is meant to be used at the beginning only.
+  // NOTE: no ChessBoard refresh is done at this point
   void placeMaxDames() {
     // Start positioning from dame 0
     int dame = 0;
-
+    
     while(dame < this.dameList.length) {
       dameList[dame] = this.cb.getNextDameSafe(dameList);
       if ( dameList[dame] == null ) {
+        // All placed
+        if ( DEBUG ) {
+          System.out.println("\tplaceMaxDames() : dames placed = "+dame);
+        }
         break;
       }
       dame++;
     }
   }
   
-  // 2 - Move last dame into next safe position or return false
-  //     NOTE: no ChessBoard refresh is done at this point
-  boolean moveLast() {
-    int index = getLastDameIndex();
-    
-    // Reached the end
-    if ( index < 0 ) {
-      return false; 
+  // Start from the last dame placed and place any possible forwards
+  boolean placeAllPossibleDamesAfterLast() {
+    // Start positioning from dame 0
+    int dame = getLastPlacedDameIndex();
+    if ( DEBUG ) {
+      displayDames();
+      System.out.println("\tplaceAllPossibeDamesAfterLast() : last placed dame = "+dame);
     }
     
-    if ( dameList[index] != null ) {
-      Dame d = dameList[index];
-      dameList[index] = null;
-      Dame test = cb.getNextDameSafe(dameList, d);
-      if ( test != null ) {
-        this.dameList[index] = cb.getNextDameSafe(dameList, d);
+    // Move to next not-allocated
+    dame++;
+
+    while(dame < this.dameList.length) {
+      dameList[dame] = this.cb.getNextDameSafe(dameList);
+      if ( dameList[dame] == null ) {
+        // All placed
+        if ( DEBUG ) {
+          System.out.println("\tplaceAllPossibeDamesAfterLast() : TRUE dame-NULL = "+dame);
+        }
         return true;
       }
-      // Put last dame back
-      else {
-        this.dameList[index] = d;
-      }
+      dame++;
+    }
+    if ( DEBUG ) {
+      System.out.println("\tplaceAllPossibeDamesAfterLast() : FALSE dame = "+dame);
     }
     return false;
   }
   
-  // 3 - If not possible to move last dame more, remove it from dameList and move().
-  void moveOne(int dame) {
-    if ( ! moveLast() ) {
-      int index = getLastDameIndex();
-      if ( index >= 0 ) {
-        dameList[index] = null;
+  // Move last dame into next safe position:
+  // - last dame moved, returns dame index
+  // - last dame did not find any more safe positions returns -1
+  // NOTE: no ChessBoard refresh is done at this point
+  int moveLastPlacedDame() {
+    int dame = getLastPlacedDameIndex();
+    if ( DEBUG ) {
+      System.out.println("\tmoveLastPlacedDame() : last dame = "+dame);
+    }
+
+    if ( dameList[dame] != null && dame >= 0 ) {
+      Dame d = dameList[dame];
+      dameList[dame] = null;
+      Dame test = cb.getNextDameSafe(dameList, d);
+      if ( test != null ) {
+        this.dameList[dame] = cb.getNextDameSafe(dameList, d);
+        if ( DEBUG ) {
+          System.out.println("\tmoveLastPlacedDame() : returning dame = "+dame);
+        }
+        return dame;
+      }
+      // Put last dame back
+      else {
+        this.dameList[dame] = d;
+      }
+    }
+    if ( DEBUG ) {
+      System.out.println("\tmoveLastPlacedDame() : returning -1");
+    }
+
+    return -1;
+  }
+  
+  // Remove last dame from the dameList.
+  void removeLastPlacedDame() {
+    int dame = getLastPlacedDameIndex();
+    if ( DEBUG ) {
+      System.out.println("\tremoveLastPlacedDame() : last dame = "+dame);
+    }
+    if ( dame >= 0 ) {
+      if ( DEBUG ) {
+        System.out.println("\tremoveLastPlacedDame() : setting dame "+dame+" to NULL");
+      }
+      dameList[dame] = null;
+    }
+    else {
+      if ( DEBUG ) {
+        System.out.println("\tremoveLastPlacedDame() : nothing changed");
       }
     }
   }
 
-  // Note: will return -1 if first dameList index is null
-  int getLastDameIndex() {
-    int index = 0;
+  // Note: will return -1 if non-null dame valid index found
+  //       Starts from the last dame to the first
+  int getLastPlacedDameIndex() {
+    int dames = this.dameList.length - 1;
+
     // Find last not null in dameList index
-    for( int i = 0; i < this.dameList.length; i++ ) {
-      if ( dameList[i] == null ) {
-        index = i - 1;
-        break;
+    for( int i = dames; i >= 0; i-- ) {
+      if ( this.dameList[i] != null ) {
+        if ( DEBUG ) {
+          System.out.println("\tgetLastPlacedDameIndex() : returning dame index "+i);
+          displayDames();
+        }
+        // Return this index
+        return i;
       }
     }
-    return index;
+    
+    if ( DEBUG ) {
+      System.out.println("\tgetLastPlacedDameIndex() : no dames found, returning -1 ");
+    }
+
+    return -1;
   }
-  
+
+  // Debugging  
   void displayDames() {
     for ( int i = 0; i < this.dameList.length; i++ ) {
       if ( this.dameList[i] != null ) {
