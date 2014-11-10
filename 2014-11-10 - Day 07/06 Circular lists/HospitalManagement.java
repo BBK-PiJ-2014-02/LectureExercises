@@ -40,7 +40,7 @@ public class HospitalManagement {
             do{
     			p.print();
     			p = p.nextPatient();
-    		} while (p != null);
+    		} while (! p.isFirstPatient() );
 		}
 	}
 }

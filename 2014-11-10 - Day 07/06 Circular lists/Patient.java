@@ -7,13 +7,14 @@ public class Patient {
 	private Patient nextPatient;
 	private boolean firstPatient = false;
 
+    // Constructor
     public Patient(String name, int age, String illness) {
 	    this.name        = name;
 	    this.age         = age;
 	    this.illness     = illness;
 	}
 
-    // Set the first node to true or false
+    // Setter for the first node to be true or false
 	public void setFirstPatient(boolean first) {
 		this.firstPatient = first;
 	}
@@ -30,15 +31,21 @@ public class Patient {
 			return;
 		}
 
-        // If next patient is the first patient, add this patient between this and next
-		if ( this.nextPatient != null && this.nextPatient.isFirstPatient() ) {
-			patient.setNextPatient(this.nextPatient.nextPatient());
+        // First patient
+        if ( this.nextPatient == this ) {
 			this.nextPatient = patient;
+			patient.nextPatient = this;
+			this.firstPatient = true;
+        }
 
-		}
-		// Not yet the end, keep searching
-		else {
-			this.nextPatient.addPatient(patient);
+        // adding patient before the first
+        else if ( ! this.nextPatient.isFirstPatient() ) {
+            this.nextPatient.addPatient(patient);
+
+        // when next patient is the first again, adds patient just before
+		} else if ( this.nextPatient.isFirstPatient() ) {
+			patient.nextPatient = this.nextPatient;
+			this.nextPatient = patient;
 		}
 	}
 

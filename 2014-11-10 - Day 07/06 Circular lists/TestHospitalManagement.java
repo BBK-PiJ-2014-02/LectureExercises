@@ -15,15 +15,18 @@ public class TestHospitalManagement {
 		Patient p09 = new Patient("Test 8",32,"outch 9");
 		Patient p10 = new Patient("Test 9",32,"outch 10");
 		hm.addPatient(p01);
-		hm.addPatient(p05);
+		hm.addPatient(p02);
 		hm.addPatient(p03);
 		hm.addPatient(p04);
+		hm.addPatient(p05);
 		hm.addPatient(p06);
 		hm.addPatient(p07);
 		hm.addPatient(p08);
-		hm.addPatient(p02);
 		hm.addPatient(p09);
 		hm.addPatient(p10);
+		hm.printList();
+        System.out.println("");
+
 		hm.deletePatient("Test 5");
 		hm.deletePatient("Test 4");
 		hm.deletePatient("Test 7");
@@ -32,5 +35,11 @@ public class TestHospitalManagement {
 		hm.deletePatient("Test 5");
 		hm.deletePatient("Test 50");
 		hm.printList();
+        System.out.println("");
+
+		hm.addPatient(new Patient("I am new",34,"outch again"));
+		hm.deletePatient("I am not in the list");
+		hm.printList();
+        System.out.println("");
     }
 }
