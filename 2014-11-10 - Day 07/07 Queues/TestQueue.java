@@ -3,51 +3,40 @@
 public class TestQueue {
     public static void main( String[] args ) {
 		System.out.println("==== Welcome to the Queue System ===");
+        // Initialize the queue manager
 		QueueManager qm = new QueueManager();
-		String str;
+        QueueElement qe;
 
-		str = "This is a test 0";
-		QueueElement e0 = new QueueElement(str);
-		qm.insert(e0);
-		str = "This is a test 1";
-		QueueElement e1 = new QueueElement(str);
-		qm.insert(e1);
-		str = "This is a test 2";
-		QueueElement e2 = new QueueElement(str);
-		qm.insert(e2);
-		str = "This is a test 3";
-		QueueElement e3 = new QueueElement(str);
-		qm.insert(e3);
-		str = "This is a test 4";
-		QueueElement e4 = new QueueElement(str);
-		qm.insert(e4);
-		str = "This is a test 5";
-        QueueElement e5 = new QueueElement(str);
-		qm.insert(e5);
-		str = "This is a test 6";
-		QueueElement e6 = new QueueElement(str);
-		qm.insert(e6);
-		str = "This is a test 7";
-		QueueElement e7 = new QueueElement(str);
-		qm.insert(e7);
-		str = "This is a test 8";
-		QueueElement e8 = new QueueElement(str);
-		qm.insert(e8);
-		str = "This is a test 9";
-		QueueElement e9 = new QueueElement(str);
-		qm.insert(e9);
+        // Check the queue size
+        System.out.println("There are "+qm.size()+" requests in the queue.");
 
-		System.out.println(qm.retrieve());
-		System.out.println(qm.retrieve());
-		System.out.println(qm.retrieve());
-		System.out.println(qm.retrieve());
-		System.out.println(qm.retrieve());
-		System.out.println(qm.retrieve());
-		System.out.println(qm.retrieve());
-		System.out.println(qm.retrieve());
-		System.out.println(qm.retrieve());
-		QueueElement qqq = qm.retrieve();
+        // Insert some elements of type QueueElement into the queue
+        System.out.println("Inserting request 5...");
+		qm.insert(new QueueElement("5"));
+        System.out.println("Inserting request 8...");
+		qm.insert(new QueueElement("8"));
+        System.out.println("Inserting request 12...");
+		qm.insert(new QueueElement("12"));
 
-		System.out.println(qqq.get());
+        // Check the queue size
+        System.out.println("There are "+qm.size()+" requests in the queue.");
+
+        // Retrieving the first element, and inserting a new one
+        qe = qm.retrieve();
+        if ( qe != null ) {
+            System.out.println("Retrieving request "+qe.get()+"... done");
+		}
+        System.out.println("Inserting request 13...");
+		qm.insert(new QueueElement("13"));
+
+        // A few more checks until reaching the end of the queue
+        System.out.println("There are "+qm.size()+" requests in the queue.");
+        qe = qm.retrieve();
+        while(qe != null) {
+			System.out.println("Retrieving request "+qe.get()+"... done");
+            System.out.println("There are "+qm.size()+" requests in the queue.");
+            qe = qm.retrieve();
+		}
+        System.out.println("There are "+qm.size()+" requests in the queue.");
     }
 }

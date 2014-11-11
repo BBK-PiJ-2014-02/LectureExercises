@@ -24,7 +24,7 @@ public class QueueManager {
 		}
 		// Set qe to be first element and the first to be after qe
 		else {
-			qe.setNext(this.first.getNext());
+			qe.setNext(this.first);
 			this.first = qe;
 			this.size++;
 	    }
@@ -32,7 +32,7 @@ public class QueueManager {
 
     // retrieve the last element of the queue
 	public QueueElement retrieve() {
-		if ( this.first == null ) {
+		if ( this.first == null || this.size == 0 ) {
 			return null;
 		}
 

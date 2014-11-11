@@ -3,7 +3,7 @@
 public class QueueElement {
 
     private String element;
-    private QueueElement next;
+    private QueueElement next = null;
 
     public QueueElement(String element) {
 		this.element = element;
