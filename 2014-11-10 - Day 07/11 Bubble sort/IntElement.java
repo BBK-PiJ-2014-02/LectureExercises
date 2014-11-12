@@ -1,4 +1,4 @@
-/** Day 7 - Exercise 10 - A soerted list **/
+/** Day 7 - Exercise 11 - Bubble sort **/
 
 public class IntElement {
     // The int value to store
@@ -64,6 +64,7 @@ public class IntElement {
 		}
 	}
 
+    // Bubble Sort
     public boolean bubbleSort() {
         // If nothing next, no swap needed
 		if ( this.next == null ) {
@@ -71,22 +72,27 @@ public class IntElement {
 		}
 
         if ( this.getValue() > this.next.getValue() ) {
-			return this.swap();
+			this.swap();
 		}
-		else {
+		else if ( this.getValue() <= this.next.getValue() ) {
 			return this.next.bubbleSort();
 		}
+		else {
+            return false;
+		}
+		return true;
 	}
 
 	// swaps current with the next, taking also prev pointer
-	public boolean swap() {
-        IntElement p = null;
-        IntElement n = null;
+	public void swap() {
+        IntElement p  = null;
+        IntElement n  = null;
         IntElement nn = null;
 
         // P -> this -> N -> NN swap to: P -> N -> this -> NN
-        // P <- this <- N -> NN swap to: P <- N <- this <- NN
+        // P <- this <- N <- NN swap to: P <- N <- this <- NN
         if ( this.prev != null && this.next != null && this.next.getNext() != null ) {
+//print(); System.out.println("this:L "+this.value);
 			p  = this.prev;
 			n  = this.next;
 			nn = this.next.getNext();
@@ -105,21 +111,71 @@ public class IntElement {
             // Set this <- NN
             nn.setPrev(this);
 
+//System.out.println("here 1");
 	    }
+        // P -> this -> N -> null swap to: P -> N -> this -> null
+        // P <- this <- N <- null swap to: P <- N <- this <- null
 	    else if ( this.prev != null && this.next != null && this.next.getNext() == null ) {
-			return false;
-		}
-		else if ( this.prev == null && this.next != null && this.next.getNext() != null ) {
-			return false;
-		}
-		else if ( this.prev == null && this.next != null && this.next.getNext() == null ) {
-			return false;
-		}
-		else {
-			return false;
-		}
+			p  = this.prev;
+			n  = this.next;
 
-        return true;
+            // Set P -> N
+            p.setNext(n);
+            // Set N -> this
+            n.setNext(this);
+            // Set this -> NN
+            this.next = null;
+
+            // Set P <- N
+            n.setPrev(p);
+            // Set N <- this
+            this.prev = n;
+
+//System.out.println("here 2");
+		}
+        // null -> this -> N -> NN swap to: null -> N -> this -> NN
+        // null <- this <- N <- NN swap to: null <- N <- this <- NN
+		else if ( this.prev == null && this.next != null && this.next.getNext() != null ) {
+			n  = this.next;
+			nn = this.next.getNext();
+
+            // Set N -> this
+            n.setNext(this);
+            // Set this -> NN
+            this.next = nn;
+
+            // Set P <- N
+            n.setPrev(null);
+            // Set N <- this
+            this.prev = n;
+            // Set this <- NN
+            nn.setPrev(this);
+
+//System.out.println("here 3");
+		}
+        // null -> this -> N -> null swap to: null -> N -> this -> null
+        // null <- this <- N <- null swap to: null <- N <- this <- null
+		else if ( this.prev == null && this.next != null && this.next.getNext() == null ) {
+//			n  = this.next;
+//
+//            // Set N -> this
+//            n.setNext(this);
+//            // Set this -> null
+//            this.next = null;
+//
+//            // Set null <- N
+//            n.setPrev(null);
+//            // Set N <- this
+//            this.prev = n;
+//
+//System.out.println("here 4");
+//            if ( this.next != null ) {
+//				return this.next.swap();
+//			}
+		}
+//System.out.println("here 5");
+//        print();
+System.console().readLine();
 	}
 
 	public IntElement getNext() {
@@ -136,5 +192,24 @@ public class IntElement {
 
 	public void setPrev(IntElement ie) {
 		this.prev = ie;
+	}
+
+	public void print() {
+		if ( this.prev != null ) {
+			System.out.print("> "+this.prev.getValue());
+		}
+		else {
+			System.out.print("> null");
+		}
+
+		System.out.print(" <-> "+this.value);
+
+		if ( this.next != null ) {
+            System.out.print(" <-> "+this.next.getValue());
+		}
+		else {
+			System.out.print(" <-> null");
+		}
+		System.out.println("");
 	}
 }

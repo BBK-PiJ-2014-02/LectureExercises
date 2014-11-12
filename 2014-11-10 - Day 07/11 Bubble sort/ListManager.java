@@ -1,4 +1,4 @@
-/** Day 7 - Exercise 10 - A sorted list **/
+/** Day 7 - Exercise 11 - Bubble sort **/
 
 public class ListManager {
 
@@ -60,23 +60,20 @@ public class ListManager {
 	}
 
     // Method to bubbleSort once though the list and retuns true if any swap was done
-    public boolean bubbleSort() {
+    public void bubbleSort() {
         // If empty list, no swap needed
 		if ( this.first == null ) {
-			return false;
+			return;
 		}
 
         // If no more elements, no swap needed
         if ( this.first.getNext() == null ) {
-			return false;
+			return;
 		}
 
-        if ( this.first.getValue() > this.first.getNext().getValue() ) {
-			return this.first.swap();
-		}
-		else {
-			return this.first.bubbleSort();
-		}
+        do {
+            printList();
+		} while ( this.first.bubbleSort() );
 	}
 
     // Return the list size
