@@ -59,22 +59,56 @@ public class ListManager {
         }
 	}
 
-    // Method to bubbleSort once though the list and retuns true if any swap was done
+    // BubbleSort once though the list and retuns true if any swap was done
     public void bubbleSort() {
         // If empty list, no swap needed
-		if ( this.first == null ) {
-			return;
-		}
+        if ( this.first == null ) {
+            return;
+        }
 
         // If no more elements, no swap needed
         if ( this.first.getNext() == null ) {
-			return;
-		}
+            return;
+	    }
 
         do {
-            printList();
-		} while ( this.first.bubbleSort() );
-	}
+            // If the first element is bigger than the second, swap
+            if ( this.first.getValue() > this.first.getNext().getValue() ) {
+                IntElement pFirst  = this.first;
+                IntElement pSecond = this.first.getNext();
+                IntElement pThird  = pSecond.getNext();
+
+                // swap first with second
+                this.first = pSecond;
+                this.first.setNext(pFirst);
+                pFirst.setNext(pThird);
+            }
+            // Given the first is sorted with the second, we check the third onwards
+            else {
+                this.first.bubbleSort();
+            }
+		} while(!isSorted());
+    }
+
+    // Check if current list is sorted
+    private boolean isSorted() {
+        IntElement pointer = this.first;
+        boolean sorted = true;
+        do {
+			if ( pointer == null ) {
+				return true;
+			}
+			if ( pointer.getNext() == null ) {
+				return true;
+			}
+
+			if ( pointer.getValue() > pointer.getNext().getValue() ) {
+				return false;
+			}
+			pointer = pointer.getNext();
+		} while ( pointer != null );
+		return true;
+    }
 
     // Return the list size
     public int getSize() {

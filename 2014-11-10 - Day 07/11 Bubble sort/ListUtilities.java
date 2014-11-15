@@ -18,11 +18,6 @@ public class ListUtilities {
     // Static public method to bubble sort a ListManager list
     // into a sorted list of type ListManager
     public static void bubbleSort(ListManager list) {
-		boolean sort = false;
-		do {
-			list.bubbleSort();
-			System.console().readLine();
-			// Keep swapping elements until no more swap is needed
-		} while(true);
+        list.bubbleSort();
     }
 }

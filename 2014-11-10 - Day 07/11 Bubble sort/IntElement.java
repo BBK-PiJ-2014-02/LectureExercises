@@ -5,9 +5,6 @@ public class IntElement {
     private int value;
     // Pointer to the next IntElement in list
     private IntElement next = null;
-    // Pointer to previous IntElement in list
-    // Simplifying bubble sort on swaping two elements
-    private IntElement prev = null;
 
     // Constructor
     public IntElement(int v) {
@@ -32,10 +29,8 @@ public class IntElement {
 
 		if ( this.next == null ) {
 			this.next = ie;
-			ie.setPrev(this);
 		}
 		else {
-			ie.setPrev(this);
 			this.next.addElement(ie);
 		}
 	}
@@ -48,134 +43,47 @@ public class IntElement {
 
 		if ( this.next == null ) {
 			this.next = ie;
-			ie.setPrev(this);
 		}
 		else {
 			if ( this.next.getValue() < ie.getValue() ) {
-				ie.setPrev(this);
                 this.next.addElementSorted(ie);
 			}
 			else {
-				this.next.setPrev(ie);
 				ie.next = this.next;
 				this.next = ie;
-				ie.setPrev(this);
 			}
 		}
 	}
 
-    // Bubble Sort
-    public boolean bubbleSort() {
+    // Check if need to swap or check next until null
+    public void bubbleSort() {
         // If nothing next, no swap needed
 		if ( this.next == null ) {
-			return false;
+			return;
 		}
 
-        if ( this.getValue() > this.next.getValue() ) {
-			this.swap();
+        // No need to swap if next < next-next value
+        if ( this.next.getNext() != null && this.next.getValue() <= this.next.getNext().getValue() ) {
+		    this.next.bubbleSort();
 		}
-		else if ( this.getValue() <= this.next.getValue() ) {
-			return this.next.bubbleSort();
+
+		// Swap this one if next is not null
+		else if ( this.next.getNext() != null ) {
+			IntElement pNext1 = this.next;
+			IntElement pNext2 = this.next.getNext();
+			IntElement pNext3 = this.next.getNext().getNext();
+
+            if ( pNext1.getValue() > pNext2.getValue() ) {
+                // swap pMext with pNext2
+                pNext1.setNext(pNext3);
+                pNext2.setNext(pNext1);
+                this.next = pNext2;
+                this.next.bubbleSort();
+			}
+			else {
+				return;
+			}
 		}
-		else {
-            return false;
-		}
-		return true;
-	}
-
-	// swaps current with the next, taking also prev pointer
-	public void swap() {
-        IntElement p  = null;
-        IntElement n  = null;
-        IntElement nn = null;
-
-        // P -> this -> N -> NN swap to: P -> N -> this -> NN
-        // P <- this <- N <- NN swap to: P <- N <- this <- NN
-        if ( this.prev != null && this.next != null && this.next.getNext() != null ) {
-//print(); System.out.println("this:L "+this.value);
-			p  = this.prev;
-			n  = this.next;
-			nn = this.next.getNext();
-
-            // Set P -> N
-            p.setNext(n);
-            // Set N -> this
-            n.setNext(this);
-            // Set this -> NN
-            this.next = nn;
-
-            // Set P <- N
-            n.setPrev(p);
-            // Set N <- this
-            this.prev = n;
-            // Set this <- NN
-            nn.setPrev(this);
-
-//System.out.println("here 1");
-	    }
-        // P -> this -> N -> null swap to: P -> N -> this -> null
-        // P <- this <- N <- null swap to: P <- N <- this <- null
-	    else if ( this.prev != null && this.next != null && this.next.getNext() == null ) {
-			p  = this.prev;
-			n  = this.next;
-
-            // Set P -> N
-            p.setNext(n);
-            // Set N -> this
-            n.setNext(this);
-            // Set this -> NN
-            this.next = null;
-
-            // Set P <- N
-            n.setPrev(p);
-            // Set N <- this
-            this.prev = n;
-
-//System.out.println("here 2");
-		}
-        // null -> this -> N -> NN swap to: null -> N -> this -> NN
-        // null <- this <- N <- NN swap to: null <- N <- this <- NN
-		else if ( this.prev == null && this.next != null && this.next.getNext() != null ) {
-			n  = this.next;
-			nn = this.next.getNext();
-
-            // Set N -> this
-            n.setNext(this);
-            // Set this -> NN
-            this.next = nn;
-
-            // Set P <- N
-            n.setPrev(null);
-            // Set N <- this
-            this.prev = n;
-            // Set this <- NN
-            nn.setPrev(this);
-
-//System.out.println("here 3");
-		}
-        // null -> this -> N -> null swap to: null -> N -> this -> null
-        // null <- this <- N <- null swap to: null <- N <- this <- null
-		else if ( this.prev == null && this.next != null && this.next.getNext() == null ) {
-//			n  = this.next;
-//
-//            // Set N -> this
-//            n.setNext(this);
-//            // Set this -> null
-//            this.next = null;
-//
-//            // Set null <- N
-//            n.setPrev(null);
-//            // Set N <- this
-//            this.prev = n;
-//
-//System.out.println("here 4");
-//            if ( this.next != null ) {
-//				return this.next.swap();
-//			}
-		}
-//System.out.println("here 5");
-//        print();
-System.console().readLine();
 	}
 
 	public IntElement getNext() {
@@ -186,30 +94,12 @@ System.console().readLine();
 		this.next = ie;
 	}
 
-	public IntElement getPrev() {
-		return this.prev;
-	}
-
-	public void setPrev(IntElement ie) {
-		this.prev = ie;
-	}
-
 	public void print() {
-		if ( this.prev != null ) {
-			System.out.print("> "+this.prev.getValue());
-		}
-		else {
-			System.out.print("> null");
-		}
-
-		System.out.print(" <-> "+this.value);
-
 		if ( this.next != null ) {
-            System.out.print(" <-> "+this.next.getValue());
+            System.out.print(" Next: "+this.next.getValue());
 		}
 		else {
-			System.out.print(" <-> null");
+			System.out.print(" null");
 		}
-		System.out.println("");
 	}
 }
