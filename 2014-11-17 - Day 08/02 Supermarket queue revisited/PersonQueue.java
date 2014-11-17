@@ -1,4 +1,4 @@
-/** Day 8 - Exercise 2 - Supermarket queue revisited **/
+/** Day 8 - Exercise 1 - Supermarket queue **/
 
 public interface PersonQueue {
 
