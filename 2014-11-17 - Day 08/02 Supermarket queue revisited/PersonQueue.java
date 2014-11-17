@@ -1,4 +1,4 @@
-/** Day 8 - Exercise 1 - Supermarket queue **/
+/** Day 8 - Exercise 2 - Supermarket queue revisited **/
 
 public interface PersonQueue {
 
@@ -11,5 +11,10 @@ public interface PersonQueue {
 	*  Removes a person from the queue.
 	*/
 	Person retrieve();
+
+	/**
+	*  Prints first and last name for person.
+	*/
+	void print();
 
 }
