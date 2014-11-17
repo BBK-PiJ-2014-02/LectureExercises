@@ -1,11 +1,11 @@
-/** Day 8 - Exercise 2 - Supermarket queue revisited **/
+/** Day 8 - Exercise 1 - Supermarket queue **/
 
 public class Supermarket {
 
 	/**
 	*  Person Queue
 	*/
-    private PersonQueueImpl pq;
+    private PersonQueue pq;
 
     /**
     *  Constructor

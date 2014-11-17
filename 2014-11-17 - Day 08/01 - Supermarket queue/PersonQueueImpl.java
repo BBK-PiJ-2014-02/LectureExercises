@@ -1,9 +1,5 @@
-/** Day 8 - Exercise 2 - Supermarket queue revisited **/
+/** Day 8 - Exercise 1 - Supermarket queue **/
 
-/**
-*  Changed method insert to work out iteratively and find the
-*  last person and add the give one to the last
-*/
 public class PersonQueueImpl implements PersonQueue {
 
     /**
@@ -23,16 +19,7 @@ public class PersonQueueImpl implements PersonQueue {
 			this.first = person;
 		}
 		else {
-			Person p = this.first;
-			do {
-				if ( p != null && p.getNext() != null ) {
-                    p = this.getNext();
-				}
-				else {
-					p.add(p);
-					break;
-				}
-			} while ( p != null );
+			this.first.add(person);
 		}
 	}
 

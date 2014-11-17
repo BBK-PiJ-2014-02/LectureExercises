@@ -1,4 +1,4 @@
-/** Day 8 - Exercise 2 - Supermarket queue revisited **/
+/** Day 8 - Exercise 1 - Supermarket queue **/
 
 public interface PersonQueue {
 
@@ -12,4 +12,8 @@ public interface PersonQueue {
 	*/
 	Person retrieve();
 
+	/**
+	* Prints first and last names
+	*/
+	void print();
 }
