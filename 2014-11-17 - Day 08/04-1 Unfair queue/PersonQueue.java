@@ -12,4 +12,9 @@ public interface PersonQueue {
 	*/
 	Person retrieve();
 
+	/**
+	*  Prints first and last name of Person plus age.
+	*/
+	void print();
+
 }

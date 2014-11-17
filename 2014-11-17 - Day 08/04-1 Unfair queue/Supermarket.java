@@ -5,7 +5,7 @@ public class Supermarket {
 	/**
 	*  Person Queue
 	*/
-    private PersonQueueImpl pq;
+    private PersonQueue pq;
 
     /**
     *  Constructor
