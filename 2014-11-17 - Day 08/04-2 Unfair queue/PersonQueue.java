@@ -12,4 +12,9 @@ public interface PersonQueue {
 	*/
 	Person retrieve();
 
+	/**
+	*  Prints Person details
+	**/
+	void print();
+
 }
