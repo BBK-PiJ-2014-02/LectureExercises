@@ -1,0 +1,135 @@
+/** Day 9 - Exercise 1.2 - Tree transversal **/
+
+public class IntegerTreeNodeImpl implements IntegerTreeNode {
+	/**
+	 *  Integer value
+	 */
+	private int value;
+
+    /**
+     *  Pointer to lower integer value Node
+     */
+    IntegerTreeNode left;
+
+    /**
+     *  Pointer to higher integer value Node
+     */
+    IntegerTreeNode right;
+
+    /**
+     *  Constructor to add integer value to a newly created node
+     */
+    public IntegerTreeNodeImpl(int i) {
+		this.value = i;
+	}
+
+    /**
+     *  Adds integer to the tree.
+     */
+    public void add(int i) {
+		if ( i > this.value ) {
+			if ( right == null ) {
+				right = new IntegerTreeNodeImpl(i);
+			}
+			else {
+				right.add(i);
+			}
+		}
+		else {
+			if ( left == null ) {
+				left = new IntegerTreeNodeImpl(i);
+			}
+			else {
+				left.add(i);
+			}
+		}
+	}
+
+    /**
+     *  Checks if given integers exists in tree.
+     */
+    public boolean contains(int i) {
+		if ( i == this.value ) {
+			return true;
+		}
+		else if ( i > this.value ) {
+			if ( right == null ) {
+				return false;
+			}
+			else {
+				return right.contains(i);
+			}
+		}
+		else {
+			if ( left == null ) {
+				return false;
+			}
+			else {
+				return left.contains(i);
+			}
+		}
+	}
+
+    /**
+     *  Returns the maximum integer value from the tree.
+     */
+    public int getMax() {
+		if ( right == null ) {
+			return this.value;
+		}
+		else {
+			return right.getMax();
+		}
+	}
+
+    /**
+     *  Returns the minimum integer value from the tree.
+     */
+    public int getMin() {
+		if ( left == null ) {
+			return this.value;
+		}
+		else {
+			return left.getMin();
+		}
+	}
+
+    /**
+     *  Returns the String of the complete Tree
+     */
+    @Override
+    public String toString(String complete) {
+		if ( left == null && right == null ) {
+			return "["+this.value+" L[] R[]]";
+		}
+		else if ( left == null && right != null ) {
+			return "["+this.value+" L[] R"+right.toString("complete")+"]";
+		}
+		else if ( left != null && right == null ) {
+			return "["+this.value+" L"+left.toString("complete")+" R[]]";
+		}
+		else {
+			return "["+this.value+" L"+left.toString("complete")+" R"+right.toString("Complete")+"]";
+		}
+	}
+
+    /**
+     *  Returns the string of the Tree in a more simplistic way
+     */
+    @Override
+    public String toString() {
+		if ( left == null && right == null ) {
+			return "["+this.value+"]";
+		}
+		else if ( left == null && right != null ) {
+			return "["+this.value+" "+right.toString()+"]";
+		}
+		else if ( left != null && right == null ) {
+			return "["+this.value+" "+left.toString()+"]";
+		}
+		else {
+			return "["+this.value+" "+left.toString()+" "+right.toString()+"]";
+		}
+	}
+
+}
