@@ -1,4 +1,4 @@
-/** Day 9 - Exercise 1.3 - Depth **/
+/** Day 9 - Exercise 1.4 - Deletion of elements **/
 
 public interface IntegerTreeNode {
     /**
@@ -35,4 +35,10 @@ public interface IntegerTreeNode {
      *  Returns the number of the depth levels in the tree
      */
     public int depth();
+
+    /**
+     *  Removes a node from the tree matching given value
+     */
+    public void remove(int i);
+
 }
