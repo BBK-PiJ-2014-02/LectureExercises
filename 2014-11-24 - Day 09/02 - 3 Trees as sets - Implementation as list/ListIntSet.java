@@ -21,6 +21,10 @@ public class ListIntSet implements IntSet {
 	 *  If it is there already, nothing happens.
 	 */
 	public void add(int i) {
+		if ( this.value == i ) {
+			return;
+		}
+
 		if ( this.next == null ) {
 			this.next = new ListIntSet(i);
 		}
