@@ -3,7 +3,8 @@
 public class TestSimpleMap {
     static public void main( String[] args ) {
 		SimpleMap sp = new SimpleMapImpl();
-		System.out.println("get: "+sp.get(0));
+		sp.put(5,"This is a test");
+		System.out.println("get: "+sp.get(5));
 		System.out.println("isEmpty: "+sp.isEmpty());
 //		System.out.println("get: "+sp.get(0));
 //		System.out.println("get: "+sp.get(0));

@@ -5,11 +5,29 @@
  */
 public class SimpleMapImpl implements SimpleMap {
 	/**
+	 *  Internal list array
+	 */
+	private String[] hash;
+
+	/**
+	 *  Constructor requesting a size
+	 */
+	public void SimpleMapImpl() {
+		this.hash = new String[1000];
+		for(int i = 0; i < hash.length; i++) {
+			this.hash[i] = "";
+		}
+
+	}
+
+	/**
 	 * Puts a new String in the map.
 	 *
 	 * If the key is already in the map, nothing is done.
 	 */
 	public void put(int key, String name) {
+//		int index = HashUtilities.shortHash(key);
+		this.hash[key] = name;
 	}
 
 	/**
@@ -17,7 +35,9 @@ public class SimpleMapImpl implements SimpleMap {
 	 * or null if there is none.
 	 */
 	public String get(int key) {
-		return "";
+//		int index = HashUtilities.shortHash(key);
+//		System.out.println("key: "+key+" hash: "+hash[0]);
+		return this.hash[key];
 	}
 
 	/**
@@ -26,6 +46,8 @@ public class SimpleMapImpl implements SimpleMap {
 	 * name is added with the same key.
 	 */
 	public void remove(int key) {
+//        int index = HashUtilities.shortHash(key);
+		this.hash[key] = "";
 	}
 
 	/**
@@ -33,6 +55,9 @@ public class SimpleMapImpl implements SimpleMap {
 	 * false otherwise.
 	 */
 	public boolean isEmpty() {
-		return true;
+		for( int i = 0; i < this.hash.length; i++ ) {
+			if ( this.hash[i].length() > 0 ) return true;
+		}
+		return false;
 	}
 }
