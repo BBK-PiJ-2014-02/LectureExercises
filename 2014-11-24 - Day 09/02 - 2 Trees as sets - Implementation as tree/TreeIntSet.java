@@ -34,7 +34,7 @@ public class TreeIntSet implements IntSet {
 				this.right.add(i);
 			}
 		}
-		else {
+		else if ( i < this.value ) {
 			if ( this.left == null ) {
 				this.left = new TreeIntSet(i);
 			}

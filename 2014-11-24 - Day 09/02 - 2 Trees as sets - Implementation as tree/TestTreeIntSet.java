@@ -3,6 +3,7 @@ public class TestTreeIntSet {
 		IntSet is = new TreeIntSet(0);
 		is.add(1);
 		is.add(20);
+		is.add(20);
 		is.add(3);
 		is.add(4);
 		is.add(5);
