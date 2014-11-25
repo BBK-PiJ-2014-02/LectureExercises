@@ -15,5 +15,4 @@ public interface IntSortedList {
 	 *  in the list separated by commas.
 	 */
 	String toString();
-
 }

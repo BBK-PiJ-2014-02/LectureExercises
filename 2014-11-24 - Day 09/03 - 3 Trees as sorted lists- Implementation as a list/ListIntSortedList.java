@@ -1,33 +1,33 @@
 public class ListIntSortedList implements IntSortedList {
     /**
-     *  Is first element
-     */
-	private boolean first = false;
-
-    /**
      *  Private int value
      */
 	private int value;
 
     /**
-     *  Private next node
+     *  Private first element flag
      */
-    private IntSortedList next;
+	private boolean first = false;
 
     /**
-     *  Constructor for the first element
+     *  Private next node
+     */
+    private ListIntSortedList next;
+
+    /**
+     *  Constructor
      */
     public ListIntSortedList(int i) {
 		this.first = true;
-		this.next = new ListIntSortedList(i);
+		this.next  = new ListIntSortedList(i,false);
 	}
 
     /**
-     *  Constructor for subsequent elements
+     *  Constructor
      */
     public ListIntSortedList(int i, boolean first) {
+		this.value = i;
 		this.first = first;
-		this.next = new ListIntSortedList(i,first);
 	}
 
 	/**
@@ -35,40 +35,34 @@ public class ListIntSortedList implements IntSortedList {
 	 *  A list can contain duplicated unlike a set.
 	 */
 	public void add(int i) {
-		// First element is only a pointer to the start of the list
-		if ( this.first ) {
-			if ( this.next == null ) {
-				this.next = new ListIntSortedList(i,false);
-			}
-			else if ( i > this.next.getValue() ) {
-				this.next.add(i);
-			}
-			else {
-				IntSortedList isl = new ListIntSortedList(i,false);
-				isl.getNext().setNext(this.next);
-				this.next = isl;
-			}
+		if ( this.first && this.next == null ) {
+			this.next = new ListIntSortedList(i,false);
 		}
 		else {
-			if ( this.next == null ) {
-				this.next = new ListIntSortedList(i,false);
-			}
-			else if ( i > this.next.getValue() ) {
-				this.next.add(i);
-			}
-			else {
-				IntSortedList isl = new ListIntSortedList(i,false);
-				isl.getNext().setNext(this.next);
-				this.next = isl;
-			}
+    		if ( this.next == null && i >= this.value ) {
+    			this.next = new ListIntSortedList(i,false);
+    		}
+    		else if ( this.next == null && i < this.value ) {
+    			ListIntSortedList tmp = new ListIntSortedList(i,false);
+    			tmp.setNext(this);
+    			this.next = null;
+    			System.out.println("hey");
+    		}
+    		else if ( this.value < i && i <= this.next.getValue() ) {
+      			ListIntSortedList tmp = new ListIntSortedList(i,false);
+     			tmp.setNext(this.next);
+    			this.next = tmp;
+    		}
+    		else {
+    			this.next.add(i);
+    		}
 		}
-
  	}
 
     /**
      *  Sets next pointer
      */
-    public void setNext(IntSortedList isl) {
+    public void setNext(ListIntSortedList isl) {
 		this.next = isl;
 	}
 
@@ -88,8 +82,9 @@ public class ListIntSortedList implements IntSortedList {
 		}
 		else if ( next == null ) {
 			return false;
-		} else {
-			return next.getNext().contains(i);
+		}
+		else {
+			return next.contains(i);
 		}
 	}
 
@@ -98,12 +93,21 @@ public class ListIntSortedList implements IntSortedList {
 	 *  in the list separated by commas.
 	 */
 	public String toString() {
-		if ( next != null ) {
-			return value + ", " + next.toString();
+		if ( this.next == null ) {
+			if ( this.first ) {
+				return "";
+			}
+			else {
+				return "" + value;
+			}
 		}
 		else {
-			return ", " + value;
+			if ( this.first ) {
+				return this.next.toString();
+			}
+			else {
+				return value + ", " + this.next.toString();
+			}
 		}
 	}
-
 }
