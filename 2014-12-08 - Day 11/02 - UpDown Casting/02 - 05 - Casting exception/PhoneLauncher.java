@@ -16,7 +16,7 @@ public class PhoneLauncher {
      */
 	public void launch() {
 		MobilePhone myPhone = new MobilePhone();
-		testPhone(myPhone);
+		testPhone(myPhone); // myPhone is cast into Phone
 	}
 
 	/**
