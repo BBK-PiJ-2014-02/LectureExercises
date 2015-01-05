@@ -1,0 +1,58 @@
+package question2;
+
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
+
+public class TestingSimpleMap {
+	/**
+	 * Max range number.
+	 */
+    private final int RANGE = 10000;
+    
+    /**
+     * Amount of runs.
+     */
+    private final int RUNS = 2000;
+    
+    @Before
+    public void initialization() {
+    	
+    	SimpleMap sm = new SimpleMapImpl()
+    }
+    /**
+     * Test SimpleMap for 2k random values put and get
+     */
+	@Test
+    public void testSimpleMapFor2kRandomValuesInRange() {
+		
+		SimpleMap sm = new SimpleMapImpl();
+		
+		// Add 2k random values
+		for( int i = 0; i < RUNS; i++ ) {
+			int randomNumber = (int) (Math.random()*RANGE);
+			sm.put(randomNumber, "" + randomNumber);
+		}
+		
+		// Scan throughout the n-RUNS if output is within range
+		for( int i = 0; i < RUNS; i++ ) {
+			String response = sm.get(i);
+			if ( response != null ) {
+				int randomNumber = Integer.parseInt(response);
+				if (!( randomNumber >= 0 && randomNumber <= RANGE ) ) {
+					assertTrue(false);
+				}
+			}
+		}
+		assertTrue(true);
+    }
+	
+	/**
+	 * Test empty
+	 */
+	@Test
+	public void testIsEmpty() {
+		
+	}
+}

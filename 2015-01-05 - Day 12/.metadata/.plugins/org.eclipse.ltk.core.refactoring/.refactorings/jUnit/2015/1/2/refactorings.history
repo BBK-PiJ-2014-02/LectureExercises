@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;question2.TestingHashUtilities.java&apos; to &apos;TestingSimpleMap.java&apos;&#x0D;&#x0A;- Original project: &apos;jUnit&apos;&#x0D;&#x0A;- Original element: &apos;question2.TestingHashUtilities.java&apos;&#x0D;&#x0A;- Renamed element: &apos;question2.TestingSimpleMap.java&apos;" description="Rename compilation unit &apos;TestingHashUtilities.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;question2{TestingHashUtilities.java" name="TestingSimpleMap.java" references="false" stamp="1420484730503" version="1.0"/>
+</session>
