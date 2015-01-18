@@ -1,6 +1,5 @@
-package users;
+package library;
 
-import library.Library;
 
 public interface User {
 	/**
@@ -8,7 +7,7 @@ public interface User {
 	 * 
 	 * @return integer id.
 	 */
-	int getId();
+	int getLibraryId();
 	
 	/**
 	 * User name.
@@ -33,4 +32,9 @@ public interface User {
 	 * Retrieves the Library registered for this user.
 	 */
 	String getLibrary();
+	
+	/**
+	 * Retrieves the list of books currently borrowed.
+	 */
+	Book[] getBorrowed();
 }

@@ -1,7 +1,8 @@
-package books;
+package library;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +36,16 @@ public class TestBook {
 	public void testBookInitializations() {
 		assertEquals(TITLE, book.getTitle());
 		verifyArray(AUTHORS, book.getAuthors());
+	}
+	
+	/**
+	 * Test if book is taken.
+	 */
+	@Test
+	public void testIsTaken() {
+		assertFalse(book.isTaken());
+		book.setTaken(true);
+		assertTrue(book.isTaken());
 	}
 	
 	/**

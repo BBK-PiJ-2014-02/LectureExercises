@@ -1,6 +1,11 @@
-package books;
+package library;
 
 public class MockBookImpl implements Book {
+
+	/**
+	 * Flag set to true if book is borrowed/taken.
+	 */
+	private boolean isTaken;
 
 	/**
 	 * The book title.
@@ -21,6 +26,7 @@ public class MockBookImpl implements Book {
 	public MockBookImpl(String title, String[] authors) {
 		this.title = title;
 		this.authors = authors;
+		this.isTaken = false;
 	}
 	
 	/**
@@ -39,6 +45,24 @@ public class MockBookImpl implements Book {
      */
 	public String[] getAuthors() {
 		return this.authors;
+	}
+
+	/**
+	 * Check if the book is taken.
+	 * 
+	 * @return true if taken.
+	 */
+	public boolean isTaken() {
+		return this.isTaken;
+	}
+
+	/**
+	 * Sets the book as taken or not taken.
+	 * 
+	 * @param taken if borrowed.
+	 */
+	public void setTaken(boolean taken) {
+		this.isTaken = taken;
 	}
 
 }

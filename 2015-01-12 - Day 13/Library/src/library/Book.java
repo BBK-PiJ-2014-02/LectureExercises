@@ -1,4 +1,4 @@
-package books;
+package library;
 
 /**
  * Book Class
@@ -21,4 +21,16 @@ public interface Book {
 	 * @return list of author Strings
 	 */
 	String[] getAuthors();
+	
+	/**
+	 * Check is the book is marked as taken.
+	 * 
+	 * @return true if taken.
+	 */
+	boolean isTaken();
+	
+	/**
+	 * Sets the book as taken / borrowed.
+	 */
+	void setTaken(boolean taken);
 }
