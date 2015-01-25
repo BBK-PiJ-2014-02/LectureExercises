@@ -1,11 +1,11 @@
 package anagrams;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Main {
 
 	public static void main(String[] args) {
-		List<String> words = AnagramUtil.getAnagram("te");
+		ArrayList<String> words = AnagramUtil.getAnagram("testing th");
 		for (int i = 0; i < words.size(); i++ ) {
 			System.out.println("Word: "+words.get(i));
 		}

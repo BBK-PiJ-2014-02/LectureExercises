@@ -5,19 +5,9 @@ import java.util.List;
 
 public class AnagramUtil {
 	/**
-	 * Internal ListArray for all found examples.
+	 * ListArray with all final found words.
 	 */
 	private static List<String> list = new ArrayList<String>();
-	
-	/**
-	 * Building word
-	 */
-	private static String buildingWord;
-	
-	/**
-	 * Given word.
-	 */
-	private static String givenWord;
 	
 	/**
 	 * Calculate all possible words that can be made with given work.
@@ -26,58 +16,66 @@ public class AnagramUtil {
 	 * @param word a String
 	 * @return List with all words generated
 	 */
-	public static List<String> getAnagram(String word) {
-		givenWord = word;
-//		words = new String[calculateSizeNeeded(word)];
-		anagramWord(word);
-		return list;
-	}
-
-	/**
-	 * Return the size of the array needed 
-	 * for all maximum possible word combination for a given word.
-	 * 
-	 * @param word
-	 */
-	private static int calculateSizeNeeded(String word) {
-		// Size = previous word length * previous calculation
-		if ( word.length() <= 1 ) {
-			return 1;
-		}
-		else { 
-			return word.length() * calculateSizeNeeded(word.substring(1));
-		}
+	public static ArrayList<String> getAnagram(String word) {
+		return calculateAnagram(word, word);
 	}
 
 	/**
 	 * Recursive method to calculate all word combination.
 	 * 
-	 * @param word String given
+	 * @param originalWord String given
+	 * @param subWord String to be calculated
 	 * @return String
 	 */
-	private static String anagramWord(String word) {
-		if ( word.length() == 1 ) {
-			list.add(word);
+	private static ArrayList<String> calculateAnagram(String originalWord, String subWord) {
+		// If the word has only one letter, no more calculations needed.
+		if ( subWord.length() == 1 ) {
+			ArrayList<String> arrayList = new ArrayList<String>();
+			arrayList.add(subWord);
+			return arrayList;
 		}
 		
-        if ( word.length() == 2 ) {
-        	// Add word found
-		    list.add(word);
-		    // Shift left and add second one
-		    list.add(shiftLeft(word));
+		// If word has more than one letter, find all possible anagrams.
+		else {
+			ArrayList<String> arrayList = new ArrayList<String>();
+			// Go over each letter of the word, concatenate all the other letters
+			// and recalculate the anagram for those, to be returned in an arrayList
+			// to which we then concatenate the current letter at the start of each list element.
+			// This list is then returned.
+			for( int i = 0; i < subWord.length(); i++ ) {
+				String newSubWord = removeChar(subWord, i);
+				ArrayList<String> tmpArrayList = calculateAnagram(originalWord, newSubWord);
+				for(int j = 0; j < tmpArrayList.size(); j++) {
+					arrayList.add(subWord.charAt(i)+tmpArrayList.get(j));
+				}
+			}
+    		return arrayList;
 		}
-        
-		return word;
-        
 	}
 	
 	/**
-	 * Simple String shift left
+	 * Return the String without the character at the given index
 	 * 
 	 * @param word String
-	 * @return String word shifted
+	 * @param index of the char at word
+	 * @return String word without chat at index
 	 */
-	private static String shiftLeft(String word) {
-		return word.substring(1) + word.substring(0,1); 
+	private static String removeChar(String word, int index) {
+		String finalWord = "";
+		for( int i = 0; i < word.length(); i++ ) {
+			if ( i == index ) { 
+				continue;
+			}
+			else {
+				finalWord += word.charAt(i);
+			}
+		}
+		return finalWord;
+	}
+	
+	private static void print(ArrayList<String> astr) {
+		for(int i = 0; i < astr.size(); i++ ) {
+			System.out.println("\tArrayList.get("+i+") = "+astr.get(i));
+		}
 	}
 }
