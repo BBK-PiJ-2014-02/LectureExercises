@@ -85,5 +85,4 @@ public class BinarySearch {
 			return isIn(myList, number, startIndex, endIndex);
 		}
 	}
-
 }
