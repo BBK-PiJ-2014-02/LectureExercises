@@ -19,16 +19,22 @@ public class MeanAverage {
 	 * Launching method.
 	 */
 	public void launch() {
-		int userInt[] = new int[10];
+		System.out.println("How many numbers would you like to enter to be averaged? ");
+		UserResponse ur = getInt();
+		while( ur.hasError ) {
+			ur = getInt();
+		}
+				
+		int userInt[] = new int[ur.value];
 		
-		for ( int i = 0; i < 10; i++ ) {
-			System.out.println("Please supply an integer "+i+" of 10: ");
-			UserResponse ur = getInt();
-			if ( ur.hasError ) {
+		for ( int i = 0; i < ur.value; i++ ) {
+			System.out.println("Please supply the integer "+(i+1)+" of "+ur.value+": ");
+			UserResponse ur2 = getInt();
+			if ( ur2.hasError ) {
 				i--;
 			}
 			else {
-				userInt[i] = ur.value; 
+				userInt[i] = ur2.value; 
 			}
 		}
 		
@@ -63,16 +69,23 @@ public class MeanAverage {
 		
 	}
 	
+	/**
+	 * Calculate the Average of an int array.
+	 * 
+	 * @param userInt int array
+	 * 
+	 * @return double averaged.
+	 */
 	private double getAverage(int[] userInt) {
 		if ( userInt.length == 0 ) {
 			return 0;
 		}
 		
-		int average = 0;
+		double average = 0;
 		for( int i = 0; i < userInt.length; i++) {
-			average += userInt[i]; 
+			average += (double)userInt[i]; 
 		}
-		
-		return ( average / userInt.length );
+
+		return (double)((double)average / (double)userInt.length );
 	}
 }
