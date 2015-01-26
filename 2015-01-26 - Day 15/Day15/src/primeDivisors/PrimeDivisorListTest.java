@@ -15,7 +15,7 @@ public class PrimeDivisorListTest {
 	/**
 	 * Test NullPointerExceptions when adding null
 	 */
-	@Test(exception=NullPointerException.class)
+	@Test(expected=NullPointerException.class)
 	public void testAddNull() {
 		PrimeDivisorList pdl = new PrimeDivisorListImpl();
 		pdl.add(null);
@@ -24,7 +24,7 @@ public class PrimeDivisorListTest {
 	/**
 	 * Test non-prime number added exception
 	 */
-	@Test(exception=IllegalArgumentException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testNonPrimeAdd() {
 		PrimeDivisorList pdl = new PrimeDivisorListImpl();
 		pdl.add(6);
