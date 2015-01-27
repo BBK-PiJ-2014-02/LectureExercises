@@ -19,21 +19,18 @@ public class PrimeDivisorListImpl implements PrimeDivisorList {
 	 * Constructor
 	 */
 	public PrimeDivisorListImpl() {
-		this.list = new ArrayList<Integer>();
+		this.list    = new ArrayList<Integer>();
 	}
 	
 	/**
 	 * Adds only prime numbers to the list.
 	 */
 	public void add(Integer primeNumber) {
-//		if (primeNumber == null ) {
-//			throw new NullPointerException();
-//		}
 		if ( !isPrime(primeNumber) ) {
 			throw new IllegalArgumentException();
 		}
 		
-//		list.add(primeNumber);
+		list.add(primeNumber);
 	}
 
 	/**
@@ -47,28 +44,73 @@ public class PrimeDivisorListImpl implements PrimeDivisorList {
 	 */
 	@Override
 	public String toString() {
-		String finalString = "";
-        long result = 0;
-        
         if ( list.size() == 0 ) {
-        	return finalString;
+        	return "[]";
         }
-        
+
+        int times[] = calculateDups();
+		String finalString = "";
+
+		long result = 0;
 		for( int i = 0; i < list.size(); i++ ) {
 			if ( result == 0 ) {
 				result = list.get(i);
 
 			} else {
 				result *= list.get(i);
-				finalString += " * ";
 			}
-
-			finalString += list.get(i);
 		}
 
+		for( int i = 0; i < times.length; i++ ) {
+
+			if ( times[i] == 1 ) {
+				finalString += list.get(i);
+			}
+
+			else if ( times[i] > 1 ){
+				boolean multiple = false;
+				for( int j = 0; j < i; j++ ) {
+					if ( list.get(j).equals(list.get(i))) {
+						multiple = true;
+					}
+				}
+				
+				if ( !multiple ) {
+					finalString += list.get(i)+"^"+times[i];
+				}
+				else {
+					continue;
+				}
+			}
+			else {
+				finalString += list.get(i);
+			}
+
+			if ( i < times.length - 1) {
+				finalString += " * ";
+			}
+		}
 		return "[ " + finalString + " = " + result + " ]";
 	}
 	
+	/**
+	 * Calculate amount of same numbers.
+	 */
+	private int[] calculateDups() {
+		int times[] = new int[list.size()];
+		
+		for( int i = 0; i < list.size(); i++ ) {
+			Integer integer = list.get(i);
+			times[i] = 0;
+			for( int j = 0; j < list.size(); j++ ) {
+				if ( list.get(j).equals(integer)) {
+					times[i]++;
+				}
+			}
+		}
+		return times;
+	}
+
 	/**
 	 * Checks if a given number is prime.
 	 * 

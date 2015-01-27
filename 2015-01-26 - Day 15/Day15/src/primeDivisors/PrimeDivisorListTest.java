@@ -45,6 +45,7 @@ public class PrimeDivisorListTest {
 		pdl.add(3);
 		pdl.add(7);
 		
+		// An now the checkS
 		assertEquals(expected, pdl.toString());
 	}
 }
