@@ -25,12 +25,12 @@ public class Main {
 		// Current starting time.
 		long fiboStartTime    = System.currentTimeMillis();
 		
-		int nonMem = f.fib(50);
+		int nonMem = f.fib(5);
 		
 		// Current ending time / starting time for memorized Fibonacci.
 		long fiboEndTime      = System.currentTimeMillis();
 		
-		int mem = fm.fib(50);
+		int mem = fm.fib(5);
 		
 		// Finished time
 		long memFiboEndTime   = System.currentTimeMillis();

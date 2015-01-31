@@ -1,16 +1,26 @@
 /** Day 5 - Exercise 6 - Eight Dames **/
 
-ChessCalc cc = new ChessCalc(8,8);
-cc.setDames(8);
-cc.placeDames();
+//////////////////
+// Main program //
+//////////////////
 
+// Set the board size
+ChessCalc cc = new ChessCalc(8,8);
+          // Set how many dames needed 
+          cc.setDames(8);
+          // Place them all in all possible positions
+          cc.placeDames();
+
+//////////////////////////////////////
+// The class to do all calculations //
+//////////////////////////////////////
 class ChessCalc {
-  int xSize, ySize;
+  int        xSize, ySize;
   ChessBoard cb;
   ChessBoard results[];
-  Dame dameList[];
-  int damesToSet;
-  boolean DEBUG = true;
+  Dame       dameList[];
+  int        damesToSet;
+  boolean    DEBUG = true;
 
   ChessCalc(int x, int y) {
     this.cb    = new ChessBoard(x,y);
@@ -235,6 +245,9 @@ void pause(String str) { System.out.println(str); System.console().readLine(); }
   }
 }
 
+//////////////////////////////////////////
+// Defining a Dame with x,y coordenates //
+//////////////////////////////////////////
 class Dame {
   int x, y;
  
@@ -253,6 +266,10 @@ class Dame {
   }
 }
 
+
+/////////////////////////////
+// Defining the ChessBoard //
+/////////////////////////////
 class ChessBoard {
   String[][] matrix;
   String dame;
@@ -348,18 +365,20 @@ class ChessBoard {
     return null;
   }
   
-  
   boolean isLastPosition(Dame d) {
     if ( d != null && d.x+1 >= this.xMax && d.y+1 >= this.yMax ) {
       return true;
     }
     return false;
   }
-  
+
+  // Simpler method to check if a Dame is safe by
+  // passing a Dame class instead of coordinates.
   boolean isDameSafe(Dame d) {
     return this.isDameSafe(d.x,d.y);
   }
   
+  // Given x,y coordinates on the ChessBoard,
   // returns true if no dame in sight from x,y
   // horizontally, vertically or diagonally
   boolean isDameSafe(int x, int y) {

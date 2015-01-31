@@ -22,8 +22,9 @@ public class PrimeDivisorListImpl implements PrimeDivisorList {
 		this.list    = new ArrayList<Integer>();
 	}
 	
+	
 	/**
-	 * Adds only prime numbers to the list.
+	 * {@inheritDoc}
 	 */
 	public void add(Integer primeNumber) {
 		if ( !isPrime(primeNumber) ) {
