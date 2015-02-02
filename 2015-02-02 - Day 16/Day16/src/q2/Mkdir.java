@@ -17,6 +17,7 @@ public class Mkdir {
 		System.out.println("Please enter the folder name to be created: ");
 		Scanner in = new Scanner(System.in);
 		String name = in.nextLine();
+		in.close();
 		
 		System.out.println("Creating folder name: "+name);
 		File folder = new File(name);
