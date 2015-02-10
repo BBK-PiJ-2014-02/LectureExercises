@@ -12,17 +12,21 @@ public class ComputationLauncher {
      * How many numbers to process? If too low, there is no noticeable
      * difference.
      */
-     public static final int COUNT = 40000000;
+     public static final int COUNT = 200000000;
 
-    /*
-     * The computations to be performed. Stored as fields so 
-     * both methods (sequential and parallel) act on exactly 
-     * the same data
-     */
-    private Computation c1 = null;
-    private Computation c2 = null;
-
-    /**
+     /**
+      * Number of processors found in current machine
+      */
+     public static final int PROCESSORS = Runtime.getRuntime().availableProcessors();
+     
+     /**
+      * The computations to be performed. Stored as fields so 
+      * both methods (sequential and parallel) act on exactly 
+      * the same data
+      */
+     private Computation[] computations = new Computation[PROCESSORS];
+     
+     /**
      * The main method that launches the computations
      *
      * @param args command-line arguments, ignored
@@ -32,6 +36,12 @@ public class ComputationLauncher {
 	  c.launch();
     }
    
+    /**
+     * Create a new double array with given size initialised with random numbers.
+     * 
+     * @param size int size of the array
+     * @return double array.
+     */
     private double[] createArray(int size) {
 	  double[] result = new double[size];
 	  for (int i = 0; i < result.length; i++) 
@@ -41,37 +51,58 @@ public class ComputationLauncher {
 	  return result;
     }
    
+    /**
+     * Launch method.
+     */
     private void launch() {
-	  // Uncomment the following line to know how many processors your machine has
-	  // System.out.println("#CPU: " + Runtime.getRuntime().availableProcessors());
-	  long start, stop;
-	  c1 = new Computation(createArray(COUNT/2));
-	  c2 = new Computation(createArray(COUNT/2));	
-	  start = System.currentTimeMillis();
-	  sequentialComputations();
-	  stop = System.currentTimeMillis();
-	  System.out.println("Time without threads: " + (stop - start) + "ms");
-	  start = System.currentTimeMillis();
-	  parallelComputations();
-	  stop = System.currentTimeMillis();
-	  System.out.println("Time with threads: " + (stop - start) + "ms");
+    	// Amount of processors being used
+        System.out.println("#CPU: " + PROCESSORS);
+
+        long start, stop;
+
+        for( int i = 0; i < PROCESSORS; i++ ) {
+		    computations[i] = new Computation(createArray(COUNT/PROCESSORS));
+		}
+
+        start = System.currentTimeMillis();
+        sequentialComputations();
+        stop = System.currentTimeMillis();
+	    System.out.println("Time without threads: " + (stop - start) + "ms");
+	    start = System.currentTimeMillis();
+	    parallelComputations();
+	    stop = System.currentTimeMillis();
+	    System.out.println("Time with threads: " + (stop - start) + "ms");
     }
    
+    /**
+     * Sequential computation.
+     */
     private void sequentialComputations() {
-	  c1.run();
-	  c2.run();
-	  double result1 = c1.getResult();
-	  double result2 = c2.getResult();
-	  System.out.println("Result: " + (result1 + result2));
+    	for( int i = 0; i < PROCESSORS; i++ ) {
+    		computations[i].run();
+    	}
+
+    	double result = 0;
+	    for( int i = 0; i < PROCESSORS; i++ ) {
+	  	    result += computations[i].getResult();
+	    }
+	    System.out.println("Result: " + (result));
     }
    
+    /**
+     * Parallel computation using threads.
+     */
     private void parallelComputations() {
-	  Thread t1 = new Thread(c1);
-	  t1.start();
-	  Thread t2 = new Thread(c2);
-	  t2.start();
-	  double result1 = c1.getResult();
-	  double result2 = c2.getResult();
-	  System.out.println("Result: " + (result1 + result2));
+    	for( int i = 0; i < PROCESSORS; i++ ) {
+    		Thread t = new Thread(computations[i]);
+    		t.start();
+    	}
+      	  
+    	double result = 0;
+    	
+    	for( int i = 0; i < PROCESSORS; i++ ) {
+    		result += computations[i].getResult();
+    	}
+	    System.out.println("Result: " + (result));
     }
 }
