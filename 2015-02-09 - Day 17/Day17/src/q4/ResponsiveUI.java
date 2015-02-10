@@ -20,7 +20,7 @@ public class ResponsiveUI implements Runnable {
 	private List<Task> taskQueue;
 	
 	/**
-	 * Store queued tasks in progres.
+	 * Store queued tasks in progress.
 	 */
 	private List<Task> taskQueueInProgress;
 	
