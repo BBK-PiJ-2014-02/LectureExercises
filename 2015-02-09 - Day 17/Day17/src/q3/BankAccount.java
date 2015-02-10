@@ -26,8 +26,8 @@ public class BankAccount {
      * @param money
      */
     public synchronized void deposit( int money ) {
-    	// Synchronised to avoid multiple deposits 
-    	// of the same value from different threads.
+    	// Synchronised to avoid adding more money while the
+    	// retrieve(money) is running.
     	balance += money;
     }
     
@@ -38,8 +38,9 @@ public class BankAccount {
      * @return int money withdrawn
      */
     public synchronized int retrieve( int money ) {
-    	// Synchronised to avoid multiple retrieves 
-    	// of the same value from different threads.
+    	// Synchronised with the deposit(money)
+    	// to avoid retrieving money being added at the
+    	// middle of retrieving.
     	int result = 0;
     	
     	if ( balance > money ) {
@@ -49,8 +50,26 @@ public class BankAccount {
     		result = balance;
     	}
     	
-    	balance = balance - result;
+		// Checking the odd cases:
+    	// e.g.: result = 10; from the else{} above
+    	//       Then deposit(10) happens, making balance be 20
+    	//       balance = 20 - 10 = 10; => OK
+    	// 
+    	// e.g.: result = 10; from the if() where balance = 11 and money = 10
+    	//       Then deposit(10) happens, making balance = 21
+    	//       balance = 21 - 10 = 11; => OK
+    	// 
+    	// Consecutive retrieve(10)
+    	// e.g.: result = 10; from the else{} above
+    	//       Then retrieve(10) happens, making balance be 0
+    	//       balance = 0 - 10 = -10; => NOT OK
+    	// 
+    	// e.g.: result = 10; from the if() where balance = 11 and money = 10
+    	//       Then retrieve(10) happens, making balance = 1
+    	//       balance = 1 - 10 = -9; => NOT OK
     	
+       	balance = balance - result;
+    	    	
     	return result;
     }
 }

@@ -26,19 +26,26 @@ public class TestingBankAccount implements Runnable {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-        BankAccount bankAccount = new BankAccount();
-        bankAccount.deposit(200);
-        for(int i = 0; i < 200; i++ ) {
+
+		BankAccount bankAccount = new BankAccount();
+
+		// Deposit needs to be high enough to cover the worst case scenario
+		// when all 200 threads retrieve 100 times 1 pound each, levelling
+		// the balance to zero.
+		bankAccount.deposit(20000);
+        
+        for( int i = 0; i < 200; i++ ) {
         	TestingBankAccount tba = new TestingBankAccount(bankAccount);
         	Thread            bank = new Thread(tba);
         	bank.start();
         }
+        
         try {
 			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+        } catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+        
         System.out.println("Final balance: " + bankAccount.getBalance());
 		
 	}
@@ -48,16 +55,11 @@ public class TestingBankAccount implements Runnable {
 	 */
 	@Override
 	public void run() {
-//		System.out.println("Starting a new thread. Current balance: " + bankAccount.getBalance());
 		for( int i = 0; i < 100; i++ ) {
 			bankAccount.retrieve(1);
-//			System.out.println("    running " + i + " balance: " + bankAccount.getBalance());
 		}
-//		System.out.println("Stopping this thread. Current balance: " + bankAccount.getBalance());
 		for( int i = 0; i < 100; i++ ) {
 			bankAccount.deposit(1);
-//			System.out.println("    running " + i + " balance: " + bankAccount.getBalance());
 		}
-//		System.out.println("Stopping this thread. Current balance: " + bankAccount.getBalance());
 	}
 }
