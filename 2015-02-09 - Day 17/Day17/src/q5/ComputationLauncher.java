@@ -32,8 +32,8 @@ public class ComputationLauncher {
      * @param args command-line arguments, ignored
      */
     public static void main(String args[]) {
-	  ComputationLauncher c = new ComputationLauncher();
-	  c.launch();
+        ComputationLauncher c = new ComputationLauncher();
+	    c.launch();
     }
    
     /**
@@ -43,12 +43,11 @@ public class ComputationLauncher {
      * @return double array.
      */
     private double[] createArray(int size) {
-	  double[] result = new double[size];
-	  for (int i = 0; i < result.length; i++) 
-		{
+    	double[] result = new double[size];
+	    for (int i = 0; i < result.length; i++) {
 		    result[i] = Math.random();
 		}
-	  return result;
+	    return result;
     }
    
     /**
