@@ -27,7 +27,7 @@ public class ExecutorImpl extends TimedTask implements Executor {
 	}
 	
 	/**
-	 * Max Pending time
+	 * Max Pending time.
 	 */
 	public int getMaxPendingTime() {
 		return totalSleepingTime;

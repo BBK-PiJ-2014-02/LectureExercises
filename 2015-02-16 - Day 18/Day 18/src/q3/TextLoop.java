@@ -23,7 +23,12 @@ public class TextLoop implements Runnable {
 	 * The Executor
 	 */
 	private final Executor exec;
-
+	
+	/**
+	 * Total sleeping time
+	 */
+	private int totalSleepingTime = 0;
+	
 	/**
 	 * Constructor
 	 * 
@@ -31,6 +36,7 @@ public class TextLoop implements Runnable {
 	 */
 	public TextLoop(String name, int sleep) {
 		this.exec = new ExecutorImpl(sleep);
+		this.totalSleepingTime += sleep;
 		this.threadName = name;
 	}
 
@@ -53,10 +59,22 @@ public class TextLoop implements Runnable {
 		String[] args = {"1"};
 		TextLoop tl = new TextLoop("Main",1);
 		tl.launch(args);
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Total time: " + tl.totalSleepingTime);
+		
 	}
 	
+	/**
+	 * Launching the application.
+	 * 
+	 * @param args
+	 */
 	private void launch(String[] args) {
-//		Executor exec = new ExecutorImpl((int)Math.random()*1000);
 		
 		if ( args.length < 1 || (!args[0].equals("0") && !args[0].equals("1")) ) {
 			System.out.println("USAGE: java TextLoop <mode>");
@@ -65,18 +83,20 @@ public class TextLoop implements Runnable {
 		}
 		else if ( args[0].equals("0") ) {
 			for ( int i = 0 ; i < 10; i++ ) {
-				TextLoop tl = new TextLoop("Thread " + i, (int)Math.random()*1000 );
-    			exec.execute(tl);//.execute(tl);
+				Runnable r = new TextLoop("Thread " + i, getRandom() ) ;
+	    		r.run();
 			}
 		}
 		else {
 			for ( int i = 0 ; i < 10; i++ ) {
-				TextLoop tl = new TextLoop("Thread " + i, (int)Math.random()*1000  );
-    			exec.execute(tl);//.execute(tl);
-//				exec.execute(tl);
+				TextLoop tl = new TextLoop("Thread " + i, getRandom() );
+    			exec.execute(tl);
 			}
 		}
-		System.out.println("Total time: " + exec.getMaxPendingTime());
+	}
+
+	private int getRandom() {
+		return (int)(Math.random()*2000);
 	}
 
 }
