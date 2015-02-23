@@ -2,35 +2,34 @@ package q3dot1;
 
 import java.util.concurrent.Executor;
 
-import q2.TimedTask;
-
-public class ExecutorImpl extends TimedTask implements Executor {
+public class ExecutorImpl implements Executor {
 	/**
-	 * Total sleeping time
+	 * The thread manager which will manage how many
+	 * threads should be running at the same time.
 	 */
-	private int totalSleepingTime = 0;
-
+	private ThreadManager tm;
+	
 	/**
-	 * {@inheritDoc}
+	 * Constructor.
 	 */
-	public ExecutorImpl(int sleeping) {
-		super(sleeping);
-		this.totalSleepingTime += sleep;
+	public ExecutorImpl(int concurrentThreads){
+		this.tm = new ThreadManager(concurrentThreads);
+		Thread t = new Thread(tm);
+		t.start();
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void execute(Runnable runnable) {
-		new Thread(runnable).start();
+		tm.add(new Thread(runnable));
 	}
 	
 	/**
-	 * Max Pending time.
+	 * End the ThreadManager.
 	 */
-	public int getMaxPendingTime() {
-		return totalSleepingTime;
+	public void endThreadManager(){
+		tm.endThreadManager();
 	}
-
 }

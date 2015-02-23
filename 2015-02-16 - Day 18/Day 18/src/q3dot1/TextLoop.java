@@ -3,16 +3,18 @@ package q3dot1;
 import java.util.concurrent.Executor;
 
 /**
- * Question 1 Day 17
+ * Question 3.1 Day 18.
+ * 
+ * Running one Runnable at a time using Executor.
  * 
  * @author Vasco
  *
  */
 public class TextLoop implements Runnable {
 	/**
-	 * Amount of Runnables to have
+	 * Amount of Runnable to have simultaneously.
 	 */
- 	public static final int COUNT = 2;
+ 	public static final int COUNT = 10;
 
  	/**
  	 * The thread name 
@@ -20,23 +22,11 @@ public class TextLoop implements Runnable {
 	private final String threadName;
 	
 	/**
-	 * The Executor
-	 */
-	private final Executor exec;
-	
-	/**
-	 * Total sleeping time
-	 */
-	private int totalSleepingTime = 0;
-	
-	/**
 	 * Constructor
 	 * 
 	 * @param name
 	 */
-	public TextLoop(String name, int sleep) {
-		this.exec = new ExecutorImpl(sleep);
-		this.totalSleepingTime += sleep;
+	public TextLoop(String name) {
 		this.threadName = name;
 	}
 
@@ -46,7 +36,14 @@ public class TextLoop implements Runnable {
 	@Override
 	public void run() {
 		for( int i = 0; i < COUNT; i++ ) {
-			System.out.println("Loop: "+threadName+", iteration: "+i+".");
+			long millis = 100;
+			try {
+				Thread.sleep(millis);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Loop: " + threadName + ", iteration: " + i + ".");
 		}
 	}
 
@@ -56,25 +53,16 @@ public class TextLoop implements Runnable {
 	 * @param args
 	 */
 	public static void main(String[] arg) {
-		String[] args = {"1"};
-		TextLoop tl = new TextLoop("Main",1);
-		tl.launch(args);
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("Total time: " + tl.totalSleepingTime);
-		
+		TextLoop t1 = new TextLoop("1");
+		t1.launch();
 	}
 	
 	/**
 	 * Launching the application.
-	 * 
-	 * @param args
 	 */
-	private void launch(String[] args) {
+	private void launch() {
+		String[] args = {"1"};
+		Executor exec = new ExecutorImpl(2);
 		
 		if ( args.length < 1 || (!args[0].equals("0") && !args[0].equals("1")) ) {
 			System.out.println("USAGE: java TextLoop <mode>");
@@ -83,20 +71,15 @@ public class TextLoop implements Runnable {
 		}
 		else if ( args[0].equals("0") ) {
 			for ( int i = 0 ; i < 10; i++ ) {
-				Runnable r = new TextLoop("Thread " + i, getRandom() ) ;
-	    		r.run();
+				TextLoop t1 = new TextLoop("Thread " + i);
+	    		t1.run();
 			}
 		}
 		else {
 			for ( int i = 0 ; i < 10; i++ ) {
-				TextLoop tl = new TextLoop("Thread " + i, getRandom() );
+				TextLoop tl = new TextLoop("Thread " + i);
     			exec.execute(tl);
 			}
 		}
 	}
-
-	private int getRandom() {
-		return (int)(Math.random()*2000);
-	}
-
 }
