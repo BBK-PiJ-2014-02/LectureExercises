@@ -8,7 +8,10 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public class EchoClient {
-	private void launch() {
+	public static void main(String arg[]) {
+		launch();
+	}
+	private static void launch() {
 		// 1. If there is no security manager, start on
 		if ( System.getSecurityManager() == null ) {
 			System.setSecurityManager(new RMISecurityManager());
