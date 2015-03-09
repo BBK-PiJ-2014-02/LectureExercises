@@ -1,0 +1,28 @@
+Revision Topics
+- Trace a fragment of code // what happens on a given code. Does it compile? No compiling errors to spot 
+-  Access modifiers - examples of (public / private .. explanation)
+- Version control - git // here is a scenario..
+- Polymorphism - Dynamic binding, casting, overriding and overloading, examples and definitions
+- Polymorphism - parametric (Java Generics) - type Erasure (Java trail on Generics from the Java Tutorial  upper lowert... wildcards)
+- Inheritance - no multiple implementation inheritance
+- Abstract classes, interfaces, etc - but no default methods
+- Linked lists - operations on coding of explanation of examples.
+- Coding might include something which is naturally recursive.
+- Trace using exceptions... checked and unchecked
+- Trace using constructors ... super and this
+- Trace using polymorphism..
+- Threading!!! Runnable, join, start, sleep, notify and all that jazz
+- The use of synchronized
+- Deadlocks, livelocks
+- Maps: a problem you could implement using maps(from the collection classes) if you so wished.
+
+Excluding
+- Won't be asked specifically about Java 8 constructs although you might like to use them as the code is shorted and you want to show off.
+- RMI
+- Unit testing
+- No memory diagrams
+- Nothing about CM
+- Nothing specifically about I/O
+- Groovy
+- Decaf..
+- Network programming
